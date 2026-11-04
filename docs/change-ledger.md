@@ -4,7 +4,28 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 12:57 — Clarify SendGrid key vs Twilio Account SID
+## 2026-11-04 13:16 — Locate Twilio SID and WhatsApp Sandbox in Console
+
+- Intent: Guide the user to the correct Twilio Console pages for the app's
+  credentials and WhatsApp sender.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The Account SID and auth token are under the Account Dashboard's
+    **Account Info** section, or the top-right **Admin** menu's account settings.
+    The Account SID starts with `AC`.
+  - The WhatsApp Sandbox is under **Messaging → Try it out → Send a WhatsApp
+    message**; that page shows the sandbox sender number and the join code. The
+    top **Jump to...** search can locate WhatsApp if the menu differs.
+  - The Email section and SendGrid are unrelated to this WhatsApp flow. The
+    trial balance is sufficient for sandbox testing.
+  - Credentials must be entered on the phone, never in chat or the ledgers.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: reviewed the Twilio Console screenshot; no account access or
+  credentials were used.
+- Commit: `docs(agent): locate Twilio SID and WhatsApp Sandbox in Console`
+
+
 
 - Intent: Answer whether the pasted value is a Twilio Account SID.
 - Changed: `docs/change-ledger.md` (this entry only); no source changes and the
