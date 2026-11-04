@@ -4,7 +4,26 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 12:52 — Guide Twilio SMS forwarding test
+## 2026-11-04 12:54 — Explain disabled automatic forwarding switch
+
+- Intent: Explain why the Automatic forwarding switch is grayed out.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The switch is disabled while a request is running or when no saved
+    connection exists. It becomes active only after **Save connection** succeeds
+    with a valid Account SID, token, WhatsApp sender, and destination number.
+  - `_saved` starts from the stored `hasToken` value and is cleared whenever any
+    field is edited, so editing the configuration requires saving it again
+    before enabling forwarding.
+  - Validation requires an `AC` Account SID, a non-empty token (or a previously
+    saved one), and international sender/recipient numbers with a leading `+`
+    and no `whatsapp:` prefix.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: reviewed `lib/automation_page.dart`; no commands were needed.
+- Commit: `docs(agent): explain disabled automatic forwarding switch`
+
+
 
 - Intent: Give the user the steps to test automatic forwarding with the Twilio
   Account SID and auth token they already have.
