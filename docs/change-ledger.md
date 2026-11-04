@@ -4,7 +4,27 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 13:16 — Locate Twilio SID and WhatsApp Sandbox in Console
+## 2026-11-04 13:18 — Confirm Twilio Account SID format
+
+- Intent: Confirm that the pasted value is the Twilio Account SID.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The value matches the Account SID shown on the Twilio account-selection
+    page and has the expected `AC` plus 32 hexadecimal characters format.
+  - The Auth Token is not shown on that page. Open the account, then use
+    Account Dashboard → Account Info (or Admin → Account Info) to reveal and
+    copy it. The Auth Token is the secret; it must not be shared in chat.
+  - The WhatsApp Sandbox sender and join code are under
+    Messaging → Try it out → Send a WhatsApp message.
+  - Enter the SID, token, sender, and recipient on the phone in the Automatic
+    tab.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: reviewed the Twilio account screenshot; no account access or
+  credentials were used.
+- Commit: `docs(agent): confirm Twilio Account SID format`
+
+
 
 - Intent: Guide the user to the correct Twilio Console pages for the app's
   credentials and WhatsApp sender.
