@@ -4,6 +4,36 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-04 22:46 — Rename latest published commit
+
+- Intent: Apply the user's exact requested commit message to the latest commit.
+- Changed: `docs/change-ledger.md` records this correction; the previous entry's
+  recorded commit subject is superseded by the subject below.
+- Changed: Latest commit amended under the user's explicit rename request,
+  which overrides the normal no-amend and commit-message-format rules for this
+  operation. Remote update uses a lease pinned to the verified previous tip.
+- Behavior: none.
+- Business rules: none.
+- Verification: Initial working tree clean; local and remote main tips matched.
+  Build not run (docs only). No application source changed.
+- Commit: `feat:add files for both android and ios`
+
+## 2026-11-04 22:40 — Prepare project for GitHub push
+
+- Intent: Publish the existing project and commit history to the user-specified
+  GitHub repository on main.
+- Changed: `.gitignore` now excludes all environment files and keystores.
+- Changed: Git origin configured for the user-specified Message Bridge repository.
+- Changed: `docs/change-ledger.md` records this publishing preparation.
+- Behavior: none.
+- Business rules: none; BR-005 and BR-006 guided credential exclusion checks.
+- Verification: `git ls-remote` succeeded with no remote refs; working tree was
+  initially clean; tracked-path and history pattern checks found no credential
+  matches or tracked secret/configuration paths. `git check-ignore` confirmed
+  local settings, environment files, signing keys, and generated directories
+  are excluded. `git diff --check` passed. Build not run (docs/config only).
+- Commit: `chore(agent): prepare project for GitHub push`
+
 ## 2026-11-04 14:43 — Diagnose no forwarding after enabling
 
 - Intent: Explain why enabling automatic forwarding produced no visible result.
