@@ -4,7 +4,29 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:05 — Assess iPhone distribution options
+## 2026-11-04 11:09 — Remote iPhone sharing recommendation
+
+- Intent: Answer how to share the app with an iPhone user in a different
+  location.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - Free personal-team signing is bound to this Mac's registered devices and
+    expires after seven days, so it cannot reach a remote iPhone.
+  - TestFlight through the paid Apple Developer Program is the practical remote
+    route. Internal testers avoid beta review; external testers can use a public
+    link after Beta App Review. TestFlight builds expire after 90 days.
+  - Ad Hoc is also possible with a paid membership, but it requires the
+    recipient's device UDID and a manual install; sending only the `.app` file
+    does not work.
+  - The iOS build remains the manual WhatsApp compose flow; automatic SMS
+    forwarding is Android-only.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: derived from the signing audit recorded in the 11:05 entry; no
+  additional commands were needed.
+- Commit: `docs(agent): recommend TestFlight for remote iPhone sharing`
+
+
 
 - Intent: Explain how to share the iOS app with another iPhone user.
 - Changed: `docs/change-ledger.md` (this entry only); no source changes.
