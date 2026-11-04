@@ -4,7 +4,27 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:02 — Run on iPhone with a Release build
+## 2026-11-04 11:05 — Assess iPhone distribution options
+
+- Intent: Explain how to share the iOS app with another iPhone user.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The only signing identity is `Apple Development`, and the embedded profile
+    is an iOS Team Provisioning Profile that expires on 2026-11-10 — seven days
+    after it was created — and lists only the current iPhone.
+  - This is free personal-team signing: development builds are device-bound and
+    expire after seven days. Ad Hoc and TestFlight require the paid Apple
+    Developer Program.
+  - The iOS UI is the manual WhatsApp compose flow and stores no Twilio
+    credentials, so sharing it does not expose account secrets.
+  - Automatic SMS forwarding remains Android-only.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: checked signing identities, the embedded
+  `mobileprovision`, profile expiry/device list, and the Xcode signing settings.
+- Commit: `docs(agent): assess iPhone distribution options`
+
+
 
 - Intent: Get the app running on the connected iPhone 13 Pro Max ("Judicious")
   after Xcode stopped at launch with `SIGABRT`.
