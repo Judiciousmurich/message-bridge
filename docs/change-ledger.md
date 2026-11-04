@@ -4,7 +4,31 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:09 — Remote iPhone sharing recommendation
+## 2026-11-04 11:22 — Explain Android/iOS SMS capability gap
+
+- Intent: Answer why automatic SMS forwarding exists on Android while iOS
+  requires manual paste/type.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - iOS has no public API for reading the SMS inbox or receiving incoming SMS
+    in the background. Apps can only open a prefilled Messages/WhatsApp
+    composer, and the user must confirm and send.
+  - iOS SMS filter extensions can classify/filter unknown senders but cannot
+    forward message content. The entitled EU default-messaging API is a
+    separate, limited path this app does not implement.
+  - Android grants `RECEIVE_SMS` and lets a BroadcastReceiver queue work through
+    WorkManager, which is why the Android flow can run with the screen off.
+  - Google Play restricts SMS permissions, so the Android MVP is intended for
+    private installation.
+  - The iOS build uses the `whatsapp://send` deep link, not Twilio; the Android
+    build submits through the Twilio WhatsApp API.
+- Behavior: `none`.
+- Business rules: `none`; BR-003 and BR-020 already record the iOS constraint.
+- Verification: reviewed `lib/main.dart`, the Android receiver/worker, and the
+  README platform notes; no commands were needed.
+- Commit: `docs(agent): explain Android and iOS SMS capability gap`
+
+
 
 - Intent: Answer how to share the app with an iPhone user in a different
   location.
