@@ -4,6 +4,26 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-04 10:55 — Check Android run prerequisites
+
+- Intent: Determine how to run the app on the user's Android device.
+- Changed: `docs/change-ledger.md` (this entry only).
+- Findings:
+  - Flutter 3.22.3 is installed and working.
+  - Android SDK, JDK, and Android Studio are not installed.
+  - `Xcode.app` (4.7 GB) exists in `~/Downloads` but is not selected;
+    `xcode-select` points to the Command Line Tools. Xcode cannot build
+    Android targets.
+  - No Android phone is visible over USB and no emulator is configured.
+  - Free disk space is 1.6 GiB, which is not enough for the Android SDK,
+    Gradle downloads, and build output.
+  - The OpenJDK 17 installation was started and then cancelled.
+- Behavior: `none` (environment audit only).
+- Business rules: `none`.
+- Verification: `flutter doctor -v`, `flutter devices`, `xcodebuild -version`,
+  `xcrun simctl`, and a USB device probe were run and read.
+- Commit: `docs(agent): record Android run readiness check`
+
 ## 2026-11-04 10:48 — Establish per-turn ledger and commit protocol
 
 - Intent: Make every agent turn traceable by requiring a change ledger entry, a
