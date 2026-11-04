@@ -4,7 +4,32 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 10:55 — Check Android run prerequisites
+## 2026-11-04 11:02 — Run on iPhone with a Release build
+
+- Intent: Get the app running on the connected iPhone 13 Pro Max ("Judicious")
+  after Xcode stopped at launch with `SIGABRT`.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - Xcode 26.3 is installed at `~/Downloads/Xcode.app` and was used directly;
+    `xcode-select` still points at the Command Line Tools.
+  - The Flutter SDK is 3.22.3 (Dart 3.4.4) and the iPhone runs iOS 26.5.
+  - The Debug build aborts during Dart VM startup with
+    `mprotect failed: 13 (Permission denied)`. The device crash report confirms
+    `SIGABRT` / `abort() called`.
+  - Debug uses the Dart JIT, which iOS 26 no longer permits here. The Release
+    build uses AOT and does not hit this path.
+  - Installed `build/ios/Release-iphoneos/Runner.app` on the phone and launched
+    `com.actserv.messageBridge`; the process stayed alive and no new crash
+    report was written.
+- Behavior: `none` (the app is now running in Release; automatic SMS forwarding
+  remains Android-only, iOS uses the manual compose flow).
+- Business rules: `none`.
+- Verification: copied and parsed the device crash report; extracted the Xcode
+  console log; installed and launched with `devicectl`; confirmed the Runner
+  process was still alive 12 seconds later and that no new crash log appeared.
+- Commit: `docs(agent): record iOS release-mode run workaround`
+
+
 
 - Intent: Determine how to run the app on the user's Android device.
 - Changed: `docs/change-ledger.md` (this entry only).
