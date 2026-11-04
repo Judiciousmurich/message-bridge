@@ -4,7 +4,33 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:41 — Set up Android toolchain and build debug APK
+## 2026-11-04 11:55 — Install and launch Android app on itel A667L
+
+- Intent: Complete the Android test by installing the built app on the connected
+  phone.
+- Changed:
+  - No tracked source changes.
+  - Installed the debug APK, then built and installed a 13.2 MB arm Release APK
+    over it because the debug launch triggered repeated ANRs.
+- Findings:
+  - The debug ANR stack was
+    `com.transsion.hubcore...TranActivityImpl.onResumeHork` called from
+    `FlutterActivity.onResume`; the block was in the phone vendor's system hook,
+    not in app code.
+  - The Release build launched cleanly: `MainActivity` stayed focused, the
+    process was still alive after 18 seconds, no ANR or fatal crash appeared,
+    and the SMS permission is granted.
+  - The Release build printed Kotlin metadata warnings (dependency metadata 1.8
+    vs expected 1.6) but completed and runs. Watch the WorkManager path when
+    forwarding is enabled.
+- Behavior: `none` (build and install only).
+- Business rules: `none`.
+- Verification: `adb install` succeeded; `adb shell pidof`,
+  `dumpsys window`, and logcat checks confirmed a stable foreground app with no
+  ANR. End-to-end SMS forwarding is pending Twilio credentials on the phone.
+- Commit: `docs(agent): install and launch Android app`
+
+
 
 - Intent: Resume Android setup so the app can be tested on an Android device.
 - Changed:
