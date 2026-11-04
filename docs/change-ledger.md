@@ -4,7 +4,30 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 12:54 — Explain disabled automatic forwarding switch
+## 2026-11-04 12:57 — Clarify SendGrid key vs Twilio Account SID
+
+- Intent: Answer whether the pasted value is a Twilio Account SID.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes and the
+  value was not written to any file.
+- Findings:
+  - The pasted value is a SendGrid API key (`SG.` prefix), not a Twilio Account
+    SID. Twilio Account SIDs start with `AC` followed by 32 hexadecimal
+    characters.
+  - SendGrid is an email API; its key cannot authenticate Twilio's WhatsApp API.
+    Twilio's ownership of SendGrid does not make the credentials interchangeable.
+  - The value was exposed in chat and should be revoked or rotated in SendGrid.
+    A project-file search for `SENDGRID_API_KEY` found no matches, including in
+    tracked content.
+  - Twilio credentials come from `console.twilio.com` and must be entered only
+    on the phone.
+- Behavior: `none`.
+- Business rules: `none`; BR-005 already requires credentials to stay off
+  ledgers, commits, and chat.
+- Verification: searched the workspace for `SENDGRID_API_KEY`; no files
+  contained it.
+- Commit: `docs(agent): clarify SendGrid key vs Twilio SID`
+
+
 
 - Intent: Explain why the Automatic forwarding switch is grayed out.
 - Changed: `docs/change-ledger.md` (this entry only); no source changes.
