@@ -4,7 +4,25 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 12:50 — Clarify Twilio vs SendGrid
+## 2026-11-04 12:52 — Guide Twilio SMS forwarding test
+
+- Intent: Give the user the steps to test automatic forwarding with the Twilio
+  Account SID and auth token they already have.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The app is running on the itel A667L and `RECEIVE_SMS` is granted.
+  - The Automatic tab needs the Account SID, auth token, WhatsApp sender, and
+    destination number. The sender must be the WhatsApp Sandbox sender shown in
+    the Twilio Console, and the destination must first join that sandbox to open
+    a 24-hour session.
+  - Credentials stay on the phone; they must not be written to chat or ledgers.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: confirmed the app process, foreground activity, and SMS
+  permission with `adb`.
+- Commit: `docs(agent): guide Twilio SMS forwarding test`
+
+
 
 - Intent: Answer whether the user's SendGrid account can be linked and which
   Twilio API the app uses.
