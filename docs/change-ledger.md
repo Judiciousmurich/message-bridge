@@ -4,7 +4,29 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 12:02 — Add Android message composer tab
+## 2026-11-04 12:50 — Clarify Twilio vs SendGrid
+
+- Intent: Answer whether the user's SendGrid account can be linked and which
+  Twilio API the app uses.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - SendGrid is an email API. Twilio owns SendGrid, but the products and
+    credentials are separate, so SendGrid keys cannot authenticate WhatsApp.
+  - The Android worker calls Twilio Programmable Messaging at
+    `/2010-04-01/Accounts/{AccountSid}/Messages.json` with `From`/`To` values
+    prefixed by `whatsapp:` and Basic authentication using the Account SID and
+    auth token.
+  - No Twilio account is configured in the app yet. The app expects the details
+    shown in the Twilio Console's WhatsApp Sandbox, and the recipient must join
+    that sandbox first.
+  - Credentials must be entered on the phone, never in chat or the ledgers.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: reviewed `ForwardSmsWorker.kt` and the README Twilio references;
+  no commands were needed.
+- Commit: `docs(agent): clarify Twilio and SendGrid`
+
+
 
 - Intent: Give Android users a message textarea instead of exposing only the
   Twilio SMS setup.
