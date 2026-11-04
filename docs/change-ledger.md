@@ -4,7 +4,27 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 13:18 — Confirm Twilio Account SID format
+## 2026-11-04 13:23 — Flag exposed Twilio auth token
+
+- Intent: Respond to the pasted Account SID and auth token.
+- Changed: `docs/change-ledger.md` (this entry only); no credentials were
+  stored and no source changed.
+- Findings:
+  - The first value is the Twilio Account SID. The second value matches the
+    Auth Token format and is a secret.
+  - The token was exposed in chat, so it must be considered compromised.
+    Rotate or regenerate it in the Twilio Console's Account Info, then enter the
+    new token on the phone.
+  - Review Monitor logs and API keys for unexpected activity, enable two-factor
+    authentication, and revoke the SendGrid key that was exposed earlier.
+  - No Twilio API requests were made with the exposed credentials.
+- Behavior: `none`.
+- Business rules: `none` changed; BR-005 already requires credentials to stay
+  off chat, logs, and ledgers.
+- Verification: no credential values were written to files or used in commands.
+- Commit: `docs(agent): flag exposed Twilio auth token`
+
+
 
 - Intent: Confirm that the pasted value is the Twilio Account SID.
 - Changed: `docs/change-ledger.md` (this entry only); no source changes.
