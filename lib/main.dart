@@ -24,8 +24,44 @@ class MessageBridge extends StatelessWidget {
           ),
         ),
         home: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-            ? const AutomationPage()
+            ? const AndroidHome()
             : const ComposePage(),
+      );
+}
+
+class AndroidHome extends StatefulWidget {
+  const AndroidHome({super.key});
+
+  @override
+  State<AndroidHome> createState() => _AndroidHomeState();
+}
+
+class _AndroidHomeState extends State<AndroidHome> {
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: IndexedStack(
+          key: const Key('android-home-pages'),
+          index: _index,
+          children: const [ComposePage(), AutomationPage()],
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _index,
+          onDestinationSelected: (index) => setState(() => _index = index),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.edit_note_rounded),
+              selectedIcon: Icon(Icons.edit_note),
+              label: 'Message',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.sync_alt_rounded),
+              selectedIcon: Icon(Icons.sync_alt),
+              label: 'Automatic',
+            ),
+          ],
+        ),
       );
 }
 
@@ -40,60 +76,9 @@ class _ComposePageState extends State<ComposePage> {
   final _message = TextEditingController();
   final _phone = TextEditingController();
   bool _opening = false;
-  bool _smsEnabled = false;
-  static const _sms = MethodChannel('message_bridge/sms');
-
-  @override
-  void initState() {
-    super.initState();
-    _sms.setMethodCallHandler((call) async {
-      if (call.method != 'incomingSms' || !mounted) return;
-      final text = call.arguments as String;
-      if (_message.text.trim().isEmpty) {
-        setState(() => _message.text = text);
-        _notice('Incoming SMS added to your draft.');
-      } else {
-        final replace = await showDialog<bool>(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text('New SMS received'),
-                  content: const Text(
-                      'Replace your current draft with the incoming message?'),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: const Text('Keep draft')),
-                    TextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        child: const Text('Use SMS')),
-                  ],
-                ));
-        if (replace == true && mounted) setState(() => _message.text = text);
-      }
-    });
-  }
-
-  Future<void> _toggleSms(bool enable) async {
-    try {
-      if (enable) {
-        final allowed = await _sms.invokeMethod<bool>('enable') ?? false;
-        if (mounted) setState(() => _smsEnabled = allowed);
-        if (!allowed) {
-          _notice(
-              'SMS permission was not granted. You can still paste a message.');
-        }
-      } else {
-        await _sms.invokeMethod<void>('disable');
-        if (mounted) setState(() => _smsEnabled = false);
-      }
-    } catch (_) {
-      _notice('SMS reading is unavailable on this device.');
-    }
-  }
 
   @override
   void dispose() {
-    _sms.setMethodCallHandler(null);
     _message.dispose();
     _phone.dispose();
     super.dispose();
@@ -175,16 +160,6 @@ class _ComposePageState extends State<ComposePage> {
               child: ListView(
                 padding: const EdgeInsets.all(24),
                 children: [
-                  if (!kIsWeb &&
-                      defaultTargetPlatform == TargetPlatform.android)
-                    SwitchListTile.adaptive(
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Read incoming SMS'),
-                      subtitle: const Text(
-                          'Allow SMS access to import new messages while this app is running. Stops when the app closes.'),
-                      value: _smsEnabled,
-                      onChanged: _toggleSms,
-                    ),
                   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS)
                     const Padding(
                         padding: EdgeInsets.only(bottom: 16),

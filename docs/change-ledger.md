@@ -4,7 +4,30 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:56 — Clarify Android message source and Twilio tokens
+## 2026-11-04 12:02 — Add Android message composer tab
+
+- Intent: Give Android users a message textarea instead of exposing only the
+  Twilio SMS setup.
+- Changed:
+  - `lib/main.dart` — added `AndroidHome` with Message and Automatic tabs. The
+    app opens on Message; removed the unwired `message_bridge/sms` import switch
+    from the composer.
+  - `test/automation_test.dart` — updated tests to open the Automatic tab and
+    assert that the composer is the default.
+  - `docs/business-rules.md` — added BR-021 for the Android manual composer.
+  - `README.md` — documented the Message and Automatic tabs.
+- Behavior: Android now opens on a composer where the user can type or paste a
+  message, optionally enter a recipient, and continue in WhatsApp. The user
+  still taps Send in WhatsApp. Automatic SMS forwarding remains on the
+  Automatic tab.
+- Business rules: `BR-021` added.
+- Verification: `dart format`; `flutter analyze` found no issues; `flutter test`
+  passed all 4 tests; the 13.3 MB arm Release APK built, installed, and launched
+  on the itel A667L. A screenshot confirmed the textarea and bottom tabs, with
+  no ANR or fatal crash.
+- Commit: `feat(ui): add Android message composer tab`
+
+
 
 - Intent: Explain why the Android UI asks for Twilio credentials and which
   messages the app can read.

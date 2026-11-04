@@ -201,6 +201,17 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-04 — Initial record seeded from `README.md`.
 
+### BR-021 — Android offers a manual message composer
+- Status: Active
+- Type: Behavior
+- Rule: On Android, a Message tab lets the user type or paste a message,
+  optionally enter a recipient, and open WhatsApp with the message prefilled.
+  The user reviews and taps Send in WhatsApp. This path does not read SMS or
+  call Twilio.
+- Source: `lib/main.dart`
+- History:
+  - 2026-11-04 — Added with the Android two-tab composer/automation UI.
+
 ## Maintenance
 
 When changing a rule:

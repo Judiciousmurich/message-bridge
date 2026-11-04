@@ -1,9 +1,11 @@
 # Message Bridge
 
 Android MVP automatically forwards incoming SMS through the Twilio WhatsApp
-API. The Flutter screen configures the connection and recipient. A manifest
-receiver receives SMS even after leaving the screen, and WorkManager submits
-it when internet is available. iOS retains the original manual compose flow.
+API. The Android app has two tabs: Message, for typing or pasting a message and
+opening WhatsApp, and Automatic, which configures the Twilio connection and
+recipient. A manifest receiver receives SMS even after leaving the screen, and
+WorkManager submits it when internet is available. iOS retains the manual
+compose flow.
 
 ## Run
 
@@ -14,6 +16,9 @@ flutter pub get
 flutter run
 ```
 
+Use the **Message** tab to type or paste a message and continue in WhatsApp. Use
+the **Automatic** tab for the Twilio setup and background SMS forwarding.
+
 ## Android test setup
 
 1. Create a Twilio account and activate its WhatsApp Sandbox. The account may
@@ -22,9 +27,10 @@ flutter run
    join code and send it a message. This opens the 24-hour free-form messaging
    session required for the prototype. Production sending outside that window
    requires approved WhatsApp templates, which this MVP does not implement.
-3. Install the APK on the Android phone that will receive the SMS. In Message
-   Bridge enter the Account SID, auth token, Sandbox sender number, and
-   destination WhatsApp number. Enter credentials on the phone, not in chat.
+3. Install the APK on the Android phone that will receive the SMS. Open the
+   **Automatic** tab in Message Bridge and enter the Account SID, auth token,
+   Sandbox sender number, and destination WhatsApp number. Enter credentials on
+   the phone, not in chat.
 4. Optionally restrict forwarding to one exact SMS sender. Blank forwards all
    new SMS, including sensitive messages, to the configured WhatsApp recipient.
 5. Save the connection and enable automatic forwarding. Grant SMS permission.

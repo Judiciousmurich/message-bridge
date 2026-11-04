@@ -4,8 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:message_bridge/main.dart';
 
 void main() {
-  testWidgets(
-      'Android starts with forwarding setup and enables after permission',
+  testWidgets('Android opens on the composer and enables forwarding from setup',
       (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 2200));
     addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -30,8 +29,20 @@ void main() {
     });
     await tester.pumpWidget(const MessageBridge());
     await tester.pumpAndSettle();
+    expect(find.text('Continue in WhatsApp'), findsOneWidget);
+    expect(
+        tester
+            .widget<IndexedStack>(find.byKey(const Key('android-home-pages')))
+            .index,
+        0);
+    await tester.tap(find.text('Automatic'));
+    await tester.pumpAndSettle();
+    expect(
+        tester
+            .widget<IndexedStack>(find.byKey(const Key('android-home-pages')))
+            .index,
+        1);
     expect(find.text('SMS to WhatsApp.\nAutomatically.'), findsOneWidget);
-    expect(find.text('Paste'), findsNothing);
     expect(calls,
         ['status']); // Merely opening the app must not enable forwarding.
     await tester.tap(find.byType(SwitchListTile));
@@ -55,6 +66,8 @@ void main() {
       return null;
     });
     await tester.pumpWidget(const MessageBridge());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Automatic'));
     await tester.pumpAndSettle();
     await tester.tap(find.byType(SwitchListTile));
     await tester.pumpAndSettle();
