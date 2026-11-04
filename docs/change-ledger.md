@@ -4,7 +4,32 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:22 — Explain Android/iOS SMS capability gap
+## 2026-11-04 11:41 — Set up Android toolchain and build debug APK
+
+- Intent: Resume Android setup so the app can be tested on an Android device.
+- Changed:
+  - No tracked source changes.
+  - Installed Temurin JDK 17 at
+    `~/Library/Java/JavaVirtualMachines/temurin-17.jdk` after Homebrew began
+    compiling CMake from source; the prebuilt JDK avoided that build.
+  - Installed Android command-line tools and SDK packages under
+    `~/Library/Android/sdk`: `platform-tools`, `platforms;android-34`, and
+    `build-tools;34.0.0`. Gradle also installed build-tools 30.0.3.
+  - Configured Flutter with the Android SDK and JDK paths.
+  - `flutter clean` removed regenerable artifacts; `flutter pub get` restored
+    the Flutter plugin files.
+  - Built `build/app/outputs/flutter-apk/app-debug.apk` (403 MB universal
+    debug APK).
+- Behavior: `none` (tooling and build only).
+- Business rules: `none`.
+- Verification: `flutter doctor` reports the Android toolchain ready;
+  `flutter analyze` found no issues; `flutter test` passed all 4 tests; the APK
+  build completed successfully.
+- Blocker: `adb devices` shows no connected Android device and no phone appears
+  over USB, so the APK has not been installed or launched.
+- Commit: `docs(agent): set up Android build and produce debug APK`
+
+
 
 - Intent: Answer why automatic SMS forwarding exists on Android while iOS
   requires manual paste/type.
