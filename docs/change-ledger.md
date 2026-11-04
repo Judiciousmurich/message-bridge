@@ -4,7 +4,31 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 13:23 — Flag exposed Twilio auth token
+## 2026-11-04 14:43 — Diagnose no forwarding after enabling
+
+- Intent: Explain why enabling automatic forwarding produced no visible result.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The app forwards only new incoming SMS after enabling; it never reads the
+    SMS inbox history, so existing messages are not forwarded.
+  - The app does not post a notification. The status card below the switch is
+    the in-app indicator, and Twilio's logs or the recipient's WhatsApp show
+    whether delivery happened.
+  - The status remains "No SMS processed yet." until a new SMS arrives. If it
+    does not change after a new plain SMS, check for RCS rather than SMS, an
+    active sender filter, a force-stopped app, itel battery/autostart
+    restrictions, or a rotated auth token that was not updated in the app.
+  - Twilio errors: 20003 means bad SID/token; 63015 means the recipient has not
+    joined the Sandbox; 63016 means the 24-hour session expired.
+- Behavior: `none`.
+- Business rules: `none`; BR-011 (no inbox history) and BR-002 (background
+  forwarding) apply.
+- Verification: confirmed the app process is running, `RECEIVE_SMS` is granted,
+  the receiver is exported and registered, and no WorkManager job was queued.
+  No credentials were accessed.
+- Commit: `docs(agent): diagnose no forwarding after enable`
+
+
 
 - Intent: Respond to the pasted Account SID and auth token.
 - Changed: `docs/change-ledger.md` (this entry only); no credentials were
