@@ -4,7 +4,33 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
-## 2026-11-04 11:55 — Install and launch Android app on itel A667L
+## 2026-11-04 11:56 — Clarify Android message source and Twilio tokens
+
+- Intent: Explain why the Android UI asks for Twilio credentials and which
+  messages the app can read.
+- Changed: `docs/change-ledger.md` (this entry only); no source changes.
+- Findings:
+  - The Android page is the forwarding setup screen; it does not compose or
+    display messages.
+  - Sending uses Twilio's WhatsApp API, so the Account SID, auth token, sender,
+    and recipient are required. The app does not send through the phone's
+    personal WhatsApp.
+  - The app reads incoming SMS only (`RECEIVE_SMS`) directly from the broadcast,
+    so there is no copy step. It cannot read WhatsApp chats, notifications, or
+    other apps' messages.
+  - Silent sending from a personal WhatsApp account is not supported by WhatsApp;
+    automatic delivery requires the WhatsApp Business API/Twilio.
+  - The manual compose screen exists only on iOS. Adding one to Android would
+    still require the user to tap Send in WhatsApp.
+  - Reading other apps' notifications would be a separate
+    `NotificationListenerService` feature and is not implemented.
+- Behavior: `none`.
+- Business rules: `none`.
+- Verification: reviewed `lib/main.dart`, `lib/automation_page.dart`, and the
+  Android receiver/worker; no commands were needed.
+- Commit: `docs(agent): clarify Android message source and Twilio tokens`
+
+
 
 - Intent: Complete the Android test by installing the built app on the connected
   phone.
