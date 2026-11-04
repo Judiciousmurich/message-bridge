@@ -45,3 +45,7 @@ yarn-error.*
 /build/
 *.iml
 .idea/
+
+# Local agent instructions
+AGENTS.md
+agent.md

@@ -4,6 +4,33 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-04 22:53 — Rename agent-ignore commit
+
+- Intent: Apply the user's exact requested message to the latest commit.
+- Changed: `docs/change-ledger.md` records the corrected commit subject for
+  the preceding agent-ignore change.
+- Changed: Latest commit amended under the user's explicit rename request,
+  overriding the normal no-amend and message-format rules for this operation.
+  Remote update uses a lease pinned to the verified previous main tip.
+- Behavior: none.
+- Business rules: none.
+- Verification: Working tree initially clean; local and remote main matched.
+  Build not run (docs only). No application code changed.
+- Commit: `feat:add files for both android and ios`
+
+## 2026-11-04 22:52 — Keep agent instructions local
+
+- Intent: Ignore the agent instructions file as requested.
+- Changed: `.gitignore` excludes `AGENTS.md` and `agent.md`.
+- Changed: `AGENTS.md` removed from the Git index; its local copy is preserved.
+- Changed: `docs/change-ledger.md` records the repository-only change.
+- Behavior: none.
+- Business rules: none.
+- Verification: `git check-ignore` matched both filenames; `test -f AGENTS.md`
+  confirmed the local copy remains; `git diff --check` passed. Build not run
+  (docs/config only). Staged paths inspected before committing.
+- Commit: `chore(agent): keep agent instructions local`
+
 ## 2026-11-04 22:46 — Rename latest published commit
 
 - Intent: Apply the user's exact requested commit message to the latest commit.
