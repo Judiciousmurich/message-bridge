@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:28 — Push main to GitHub
+- Intent: Publish the current main branch before the Android phone test.
+- Changed: `docs/change-ledger.md` records the push. No application code changed.
+- Behavior: none.
+- Business rules: none.
+- Verification: `git status` showed a clean tree, `main` ahead of `origin/main` by 6 commits before this entry. `git push origin main` updated `6c7a96e..c24d4d8`. No secret values were in the unpushed diff.
+- Commit: `docs(agent): push main to GitHub`
+
 ## 2026-11-05 18:25 — Ask to connect the Android phone
 - Intent: Confirm that the SMS-to-WhatsApp flow should be tested on a connected Android phone.
 - Changed: `docs/change-ledger.md` records this check. No application code changed.
