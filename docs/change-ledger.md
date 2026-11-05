@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:24 — Explain the next step
+- Intent: Tell the user how to use the working Android flow and what remains on iPhone.
+- Changed: `docs/change-ledger.md` records this guidance. No application code changed.
+- Behavior: none.
+- Business rules: none. BR-023 and BR-024 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(agent): explain the next step`
+
 ## 2026-11-05 18:06 — Recheck iOS message access
 - Intent: Find a supported way for the iPhone app to read existing Messages and open them in WhatsApp.
 - Changed: `docs/change-ledger.md` records the check. No application code changed.
