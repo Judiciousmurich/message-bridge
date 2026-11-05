@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:43 — Check Message Bridge on the phone
+- Intent: Confirm Message Bridge is installed on the connected Android phone.
+- Changed: Replaced the phone's copy with today's debug build and opened it. `docs/change-ledger.md` records the check.
+- Findings: The itel A667L had the app. A release APK from November 4 was installed first, then replaced with today's debug APK. `READ_SMS` is present and not granted. No message contents were read.
+- Behavior: The current build is open on the phone. SMS access still needs the on-screen allow action.
+- Business rules: none. BR-023 applies when SMS access is allowed.
+- Verification: `adb dumpsys package` showed `com.actserv.message_bridge` version `1.0.0`. `adb install -r` of `app-debug.apk` succeeded. `am start` launched `MainActivity`.
+- Commit: `docs(android): check the installed phone app`
+
 ## 2026-11-05 18:28 — Push main to GitHub
 - Intent: Publish the current main branch before the Android phone test.
 - Changed: `docs/change-ledger.md` records the push. No application code changed.
