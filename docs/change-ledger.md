@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:25 — Ask to connect the Android phone
+- Intent: Confirm that the SMS-to-WhatsApp flow should be tested on a connected Android phone.
+- Changed: `docs/change-ledger.md` records this check. No application code changed.
+- Findings: `flutter devices` showed macOS and Chrome only. No Android phone was connected.
+- Behavior: none.
+- Business rules: none. BR-023 is what the phone test would exercise.
+- Verification: `flutter devices` completed and listed no Android device.
+- Commit: `docs(android): ask to connect the phone`
+
 ## 2026-11-05 18:24 — Explain the next step
 - Intent: Tell the user how to use the working Android flow and what remains on iPhone.
 - Changed: `docs/change-ledger.md` records this guidance. No application code changed.
