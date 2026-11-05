@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 17:33 — Confirm project understanding
+- Intent: Answer whether the current project structure and product rules are understood.
+- Changed: `docs/change-ledger.md` records this read-only review.
+- Behavior: none.
+- Business rules: none. Review covered BR-001 through BR-021.
+- Verification: not run (docs only). No application code changed.
+- Commit: `docs(agent): confirm project understanding`
+
 ## 2026-11-04 22:53 — Rename agent-ignore commit
 
 - Intent: Apply the user's exact requested message to the latest commit.
