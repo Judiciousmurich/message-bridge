@@ -4,6 +4,17 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 17:47 — Remove automatic Twilio forwarding
+- Intent: Keep only the manual message composer and drop Twilio SMS forwarding.
+- Changed: `lib/main.dart` always opens the composer. `lib/automation_page.dart` and `test/automation_test.dart` removed.
+- Changed: Android SMS receiver, forwarding worker, encrypted store, method channel, SMS permissions, and WorkManager dependency removed. Next launch clears any stored forwarding data and its keystore key.
+- Changed: `AndroidManifest.xml` declares the WhatsApp view intent. `ios/Runner/Info.plist` declares the WhatsApp URL scheme.
+- Changed: `README.md` and `docs/business-rules.md` describe the composer-only app. Local `AGENTS.md` updated to match; it stays untracked.
+- Behavior: Android and iOS show one composer that opens WhatsApp. The app no longer receives SMS or calls Twilio.
+- Business rules: BR-003 and BR-021 superseded by BR-022. BR-001, BR-002, and BR-004 through BR-020 retired.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (2 tests). `flutter build apk --debug` built `app-debug.apk`.
+- Commit: `feat(ui): remove automatic Twilio forwarding`
+
 ## 2026-11-05 17:33 — Confirm project understanding
 - Intent: Answer whether the current project structure and product rules are understood.
 - Changed: `docs/change-ledger.md` records this read-only review.

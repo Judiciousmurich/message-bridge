@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'automation_page.dart';
 
 void main() => runApp(const MessageBridge());
 
@@ -23,45 +22,7 @@ class MessageBridge extends StatelessWidget {
             fillColor: Colors.white,
           ),
         ),
-        home: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-            ? const AndroidHome()
-            : const ComposePage(),
-      );
-}
-
-class AndroidHome extends StatefulWidget {
-  const AndroidHome({super.key});
-
-  @override
-  State<AndroidHome> createState() => _AndroidHomeState();
-}
-
-class _AndroidHomeState extends State<AndroidHome> {
-  int _index = 0;
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: IndexedStack(
-          key: const Key('android-home-pages'),
-          index: _index,
-          children: const [ComposePage(), AutomationPage()],
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _index,
-          onDestinationSelected: (index) => setState(() => _index = index),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.edit_note_rounded),
-              selectedIcon: Icon(Icons.edit_note),
-              label: 'Message',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.sync_alt_rounded),
-              selectedIcon: Icon(Icons.sync_alt),
-              label: 'Automatic',
-            ),
-          ],
-        ),
+        home: const ComposePage(),
       );
 }
 
