@@ -11,8 +11,50 @@ Kotlin source paths are relative to
 
 ## Active rules
 
-### BR-022 — Manual WhatsApp composer on every platform
+### BR-023 — Android lists texts and opens a chosen one in WhatsApp
 - Status: Active
+- Type: Behavior
+- Rule: On Android, after the user grants SMS read permission, the app lists up
+  to 200 of the newest received and sent SMS messages stored on that phone.
+  The user can edit one or open it in the phone's own WhatsApp with the text
+  prefilled. The user reviews and taps Send in WhatsApp. The app does not
+  upload the texts, store provider credentials, or call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
+- History:
+  - 2026-11-05 — Added so the Android app reads the phone's own SMS inbox.
+    Supersedes the no-SMS part of BR-022. Ledger: Read phone texts into WhatsApp.
+
+### BR-024 — iOS cannot read the Messages inbox
+- Status: Active
+- Type: Constraint
+- Rule: On iOS, the app cannot read the Messages inbox. The user copies or
+  types a message, optionally enters a recipient, and opens WhatsApp with the
+  message prefilled. The user reviews and taps Send in WhatsApp.
+- Source: `README.md`, `lib/compose_page.dart`
+- History:
+  - 2026-11-05 — Added because iOS provides no general API for reading SMS.
+    Supersedes the shared-composer part of BR-022. Ledger: Read phone texts
+    into WhatsApp.
+  - 2026-11-05 — Kept after a request for the same inbox on iOS. A normal app
+    still has no API for the Messages inbox. Ledger: Read Android texts; iOS
+    inbox stays blocked.
+
+### BR-025 — SMS read access is for a private install
+- Status: Active
+- Type: Constraint
+- Rule: Reading SMS requires a runtime permission. Distribution through Google
+  Play requires eligibility and a permissions declaration. This build is
+  intended for private installation. If the phone only allows its default
+  Messages app to read texts, the list stays empty.
+- Source: `README.md`, `AndroidManifest.xml`
+- History:
+  - 2026-11-05 — Added with on-device SMS reading. Ledger: Read phone texts
+    into WhatsApp.
+
+## Superseded rules
+
+### BR-022 — Manual WhatsApp composer on every platform
+- Status: Superseded by BR-023 and BR-024
 - Type: Behavior
 - Rule: On Android and iOS, the app shows one composer. The user types or
   pastes a message, optionally enters a recipient, and opens WhatsApp with the
@@ -22,8 +64,8 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-05 — Added when automatic Twilio forwarding was removed. Supersedes
     BR-003 and BR-021. Ledger: Remove automatic Twilio forwarding.
-
-## Superseded rules
+  - 2026-11-05 — Superseded. Android now reads on-device SMS. iOS keeps the
+    manual composer. Ledger: Read phone texts into WhatsApp.
 
 ### BR-003 — iOS keeps the manual compose flow
 - Status: Superseded by BR-022

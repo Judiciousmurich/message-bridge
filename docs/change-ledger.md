@@ -4,6 +4,16 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:03 — Read Android texts; iOS inbox stays blocked
+- Intent: List the phone's own texts and open a chosen one in WhatsApp, on Android and iOS.
+- Changed: Android requests SMS read permission, lists up to 200 stored received and sent texts, and opens the chosen text in WhatsApp on the same phone.
+- Changed: `lib/sms_inbox_page.dart`, `lib/compose_page.dart`, `lib/main.dart`, `MainActivity.kt`, `AndroidManifest.xml`, `test/sms_inbox_test.dart`, `README.md`.
+- Changed: iOS stays on paste and type. Apple does not let a normal app read the Messages inbox.
+- Behavior: Android shows the phone's texts and hands a chosen one to WhatsApp for the user to send. iOS does not list Messages.
+- Business rules: BR-022 superseded by BR-023 and BR-024. BR-025 added. BR-024 kept after the iOS request.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (4 tests). `flutter build apk --debug` built `app-debug.apk`.
+- Commit: `feat(android): read phone texts into WhatsApp`
+
 ## 2026-11-05 17:47 — Remove automatic Twilio forwarding
 - Intent: Keep only the manual message composer and drop Twilio SMS forwarding.
 - Changed: `lib/main.dart` always opens the composer. `lib/automation_page.dart` and `test/automation_test.dart` removed.

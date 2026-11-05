@@ -1,7 +1,12 @@
 # Message Bridge
 
-Type or paste a message, then continue it in WhatsApp. You review the message
-and tap Send there. The app does not read SMS and does not call Twilio.
+On Android, Message Bridge reads the SMS messages stored on the phone and
+opens a chosen one in WhatsApp. You review it and tap Send there. The text is
+not uploaded and Twilio is not used.
+
+iPhone cannot do the same thing. Apple does not let a normal app read the
+Messages inbox, including when the person would allow it. On iOS, copy a
+message and paste it into Message Bridge, then continue in WhatsApp.
 
 ## Run
 
@@ -12,8 +17,14 @@ flutter pub get
 flutter run
 ```
 
-WhatsApp must be installed on the phone. The recipient field is optional: enter
-an international number, or leave it blank and choose the chat in WhatsApp.
+On Android, grant SMS access when asked. WhatsApp must be installed. Leave the
+recipient blank to choose the chat in WhatsApp, or enter an international
+number.
+
+The list shows the 200 newest received and sent texts. Google Play restricts
+SMS access, so this build is meant for a private install. Some phones only let
+the default Messages app read texts; if the list stays empty after you allow
+access, the phone blocked the read.
 
 ## Check
 
