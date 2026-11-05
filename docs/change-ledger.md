@@ -4,6 +4,18 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-05 18:06 — Recheck iOS message access
+- Intent: Find a supported way for the iPhone app to read existing Messages and open them in WhatsApp.
+- Changed: `docs/change-ledger.md` records the check. No application code changed.
+- Findings:
+  - A normal iOS app still cannot read the Messages inbox or be notified when a text arrives.
+  - Shortcuts can pass a new matching text into an action the user creates. It cannot read texts already stored in Messages.
+  - TelephonyMessagingKit can receive new carrier texts only when Apple grants the default-carrier entitlement and the person in the EU selects that app. It does not read the existing Messages inbox.
+- Behavior: none.
+- Business rules: none. BR-024 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(ios): recheck Messages inbox access`
+
 ## 2026-11-05 18:03 — Read Android texts; iOS inbox stays blocked
 - Intent: List the phone's own texts and open a chosen one in WhatsApp, on Android and iOS.
 - Changed: Android requests SMS read permission, lists up to 200 stored received and sent texts, and opens the chosen text in WhatsApp on the same phone.
