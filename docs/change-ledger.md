@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 15:45 — Explain automatic send needs an API
+- Intent: Answer whether automatic WhatsApp sending requires a WhatsApp API.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Sending without the WhatsApp Send tap requires a WhatsApp API. Opening the phone's WhatsApp app with the text filled in does not. The API path was removed with Twilio.
+- Behavior: none.
+- Business rules: none. BR-023 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(android): explain automatic send needs an API`
+
 ## 2026-11-06 15:05 — Record the requested self-send
 - Intent: The user wants every SMS read from the phone's Messages app and sent automatically to their own WhatsApp number.
 - Changed: `docs/change-ledger.md` records the request. No application code changed.
