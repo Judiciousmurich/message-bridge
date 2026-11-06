@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 15:46 — List the two send choices
+- Intent: Tell the user the workable ways to get a phone text into WhatsApp.
+- Changed: `docs/change-ledger.md` records the choices. No application code changed.
+- Findings: The current Android app can open WhatsApp with a chosen text, and the user taps Send. Automatic delivery requires putting a WhatsApp API back. iPhone still cannot read Messages.
+- Behavior: none.
+- Business rules: none. BR-023 and BR-024 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(agent): list the two send choices`
+
 ## 2026-11-06 15:45 — Explain automatic send needs an API
 - Intent: Answer whether automatic WhatsApp sending requires a WhatsApp API.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
