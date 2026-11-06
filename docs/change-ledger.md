@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 15:02 — Explain Android still needs Send
+- Intent: Answer whether Android can send the chosen text automatically.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: The Android app lists stored texts and opens WhatsApp with the chosen text filled in. WhatsApp still requires the person to tap Send. The phone's own WhatsApp has no API that lets Message Bridge complete that send.
+- Behavior: none.
+- Business rules: none. BR-023 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(android): explain Send stays in WhatsApp`
+
 ## 2026-11-05 18:43 — Check Message Bridge on the phone
 - Intent: Confirm Message Bridge is installed on the connected Android phone.
 - Changed: Replaced the phone's copy with today's debug build and opened it. `docs/change-ledger.md` records the check.
