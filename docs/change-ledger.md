@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 18:00 — Stay with WhatsApp Messenger
+- Intent: The user wants the phone's WhatsApp Messenger app only, not a business API.
+- Changed: `docs/change-ledger.md` records the decision. No application code changed.
+- Findings: The app already opens WhatsApp Messenger with `whatsapp://send` and does not call Twilio or the Meta Cloud API. The user taps Send in WhatsApp.
+- Behavior: none.
+- Business rules: none. BR-023 and BR-024 still apply.
+- Verification: not run (docs only). Reviewed `lib/compose_page.dart`.
+- Commit: `docs(agent): stay with WhatsApp Messenger`
+
 ## 2026-11-06 17:53 — Explain the official WhatsApp API
 - Intent: The user wants the ready-made WhatsApp API instead of Twilio.
 - Changed: `docs/change-ledger.md` records the explanation. No application code changed.
