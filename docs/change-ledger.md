@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 15:05 — Record the requested self-send
+- Intent: The user wants every SMS read from the phone's Messages app and sent automatically to their own WhatsApp number.
+- Changed: `docs/change-ledger.md` records the request. No application code changed.
+- Findings: Android can read the stored texts and open WhatsApp addressed to the user's own number with a text filled in. The WhatsApp app on the phone still requires Send. Message Bridge cannot place those texts into the user's own WhatsApp chat by itself.
+- Behavior: none.
+- Business rules: none. BR-023 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(android): record requested automatic self-send`
+
 ## 2026-11-06 15:02 — Explain Android still needs Send
 - Intent: Answer whether Android can send the chosen text automatically.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
