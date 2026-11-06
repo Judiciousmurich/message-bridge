@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 17:47 — Explain Twilio versus the WhatsApp API
+- Intent: Answer whether the user must configure Twilio, or whether the WhatsApp API includes Twilio.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: WhatsApp's API does not include Twilio. Twilio is a separate service that sends through WhatsApp's API. This app's removed automatic path used Twilio, so automatic sending here means a Twilio account configured on the phone.
+- Behavior: none.
+- Business rules: none. BR-023 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(agent): explain Twilio versus the WhatsApp API`
+
 ## 2026-11-06 17:32 — Confirm a WhatsApp API can be used
 - Intent: Answer whether Message Bridge can use a WhatsApp API for automatic delivery.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
