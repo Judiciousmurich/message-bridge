@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 17:32 — Confirm a WhatsApp API can be used
+- Intent: Answer whether Message Bridge can use a WhatsApp API for automatic delivery.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Yes. A WhatsApp API can send a text to the user's WhatsApp number without the Send tap. This project previously used Twilio's WhatsApp API. That code is removed. The phone's WhatsApp app is still the no-API path. Credentials would be entered on the phone.
+- Behavior: none.
+- Business rules: none. BR-023 still applies until an API path is added again.
+- Verification: not run (docs only).
+- Commit: `docs(android): confirm a WhatsApp API can be used`
+
 ## 2026-11-06 15:46 — List the two send choices
 - Intent: Tell the user the workable ways to get a phone text into WhatsApp.
 - Changed: `docs/change-ledger.md` records the choices. No application code changed.
