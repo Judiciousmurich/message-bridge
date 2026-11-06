@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 17:53 — Explain the official WhatsApp API
+- Intent: The user wants the ready-made WhatsApp API instead of Twilio.
+- Changed: `docs/change-ledger.md` records the explanation. No application code changed.
+- Findings: WhatsApp's own Cloud API is Meta's API, not a built-in part of the WhatsApp app and not Twilio. Using it still requires a Meta WhatsApp Business setup, and the token and sender are entered on the phone. Messages come from that business number.
+- Behavior: none.
+- Business rules: none. BR-023 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(agent): explain the official WhatsApp API`
+
 ## 2026-11-06 17:47 — Explain Twilio versus the WhatsApp API
 - Intent: Answer whether the user must configure Twilio, or whether the WhatsApp API includes Twilio.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
