@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'automation_page.dart';
 import 'compose_page.dart';
-import 'sms_inbox_page.dart';
 
 export 'compose_page.dart';
 
@@ -26,7 +26,7 @@ class MessageBridge extends StatelessWidget {
           ),
         ),
         home: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-            ? const SmsInboxPage()
+            ? const AutomationPage()
             : const ComposePage(),
       );
 }

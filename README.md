@@ -1,30 +1,47 @@
 # Message Bridge
 
-On Android, Message Bridge reads the SMS messages stored on the phone and
-opens a chosen one in WhatsApp. You review it and tap Send there. The text is
-not uploaded and Twilio is not used.
+On Android, Message Bridge watches for a new SMS and sends its text to a
+WhatsApp number through Twilio. After setup, this happens while the app is
+closed and while the phone is locked. The original text stays in the phone's
+Messages app. The app does not show an inbox and does not ask you to continue
+each message.
 
-iPhone cannot do the same thing. Apple does not let a normal app read the
-Messages inbox, including when the person would allow it. On iOS, copy a
-message and paste it into Message Bridge, then continue in WhatsApp.
+iPhone cannot receive SMS inside an app, so automatic forwarding is Android-only.
 
 ## Run
 
-Install Flutter and Xcode or the Android SDK, then run:
+Install Flutter and the Android SDK, then run:
 
 ```sh
 flutter pub get
 flutter run
 ```
 
-On Android, grant SMS access when asked. WhatsApp must be installed. Leave the
-recipient blank to choose the chat in WhatsApp, or enter an international
-number.
+## Android setup
 
-The list shows the 200 newest received and sent texts. Google Play restricts
-SMS access, so this build is meant for a private install. Some phones only let
-the default Messages app read texts; if the list stays empty after you allow
-access, the phone blocked the read.
+1. Create a Twilio account and activate its WhatsApp Sandbox.
+2. From the WhatsApp account that should receive the texts, join that Sandbox
+   and send it a message. That opens the 24-hour session. The message arrives
+   from the Sandbox number.
+3. Install Message Bridge on the Android phone that receives the SMS. Enter the
+   Account SID, auth token, Sandbox sender, and your WhatsApp number on the
+   phone. Do not enter them in chat.
+4. Leave the sender filter blank to forward every new SMS, or set one exact
+   sender. Save, enable forwarding, and grant SMS permission.
+5. Lock the phone and send it an SMS. Refresh the status in the app, and check
+   Twilio's logs and the receiving WhatsApp.
+
+The app reads only the new SMS broadcast. It does not open, delete, or rewrite
+the Messages inbox. Android may delay background work. Force-stopping the app
+blocks reception until it is opened again. After reboot, unlock the phone once
+so the encrypted settings are available.
+
+The token and a queued SMS body are encrypted with Android Keystore. Backup of
+app data is disabled. The maximum forwarded body is 1500 UTF-16 units. A
+submission whose result is uncertain is not sent again. "Accepted by Twilio"
+means the API accepted it, not that WhatsApp has delivered it.
+
+Google Play restricts SMS permission. This build is for a private install.
 
 ## Check
 
@@ -33,6 +50,6 @@ flutter analyze
 flutter test
 ```
 
-Build Android with `flutter build apk`. iOS builds require Xcode and signing.
-The Android identifier is `com.actserv.message_bridge`. The partial Expo
-starter is preserved in `.previous-expo/` and is unused by this app.
+Build Android with `flutter build apk`. The Android identifier is
+`com.actserv.message_bridge`. The partial Expo starter in `.previous-expo/` is
+unused.

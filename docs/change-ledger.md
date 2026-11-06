@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-06 18:19 — Forward new SMS through Twilio
+- Intent: Forward each new Android SMS to a WhatsApp number through Twilio with no per-message tap, and leave the phone's Messages app unchanged.
+- Changed: Restored the SMS receiver, WorkManager submission, encrypted Twilio store, and setup screen. Removed the SMS inbox screen.
+- Changed: `AndroidManifest.xml` receives new SMS and declares network access. `build.gradle` includes WorkManager. `README.md` and `docs/business-rules.md` match this flow.
+- Behavior: After setup, a new SMS is sent to the configured WhatsApp number while the app is closed or the phone is locked. The original SMS stays in Messages. iOS has no automatic path.
+- Business rules: BR-023 superseded by BR-026. BR-025 superseded by BR-030. BR-027, BR-028, and BR-029 added. BR-024 updated.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (4 tests). `flutter build apk --debug` built `app-debug.apk`.
+- Commit: `feat(android): forward new SMS through Twilio`
+
 ## 2026-11-06 18:00 — Stay with WhatsApp Messenger
 - Intent: The user wants the phone's WhatsApp Messenger app only, not a business API.
 - Changed: `docs/change-ledger.md` records the decision. No application code changed.
