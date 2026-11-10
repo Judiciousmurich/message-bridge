@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-10 16:23 — Check whether texts are already forwarding
+- Intent: Answer whether all messages are now being sent to WhatsApp.
+- Changed: `docs/change-ledger.md` records the check. No application code changed.
+- Findings: The phone is not connected. The built behavior forwards only a new SMS after Twilio is saved and forwarding is enabled. Existing Messages are not sent. No live delivery was observed.
+- Behavior: none.
+- Business rules: none. BR-026 and BR-027 still apply.
+- Verification: `flutter devices` listed macOS and Chrome only.
+- Commit: `docs(android): check whether texts are already forwarding`
+
 ## 2026-11-06 18:19 — Forward new SMS through Twilio
 - Intent: Forward each new Android SMS to a WhatsApp number through Twilio with no per-message tap, and leave the phone's Messages app unchanged.
 - Changed: Restored the SMS receiver, WorkManager submission, encrypted Twilio store, and setup screen. Removed the SMS inbox screen.
