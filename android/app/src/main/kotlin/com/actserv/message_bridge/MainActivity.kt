@@ -1,82 +1,135 @@
 package com.actserv.message_bridge
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.provider.Settings
+import android.provider.Telephony
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import org.json.JSONObject
+import java.security.KeyStore
 
 class MainActivity : FlutterActivity() {
     private var pending: MethodChannel.Result? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        clearRetiredForwardingData()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun configureFlutterEngine(engine: FlutterEngine) {
         super.configureFlutterEngine(engine)
-        MethodChannel(engine.dartExecutor.binaryMessenger, "message_bridge/automation")
+        MethodChannel(engine.dartExecutor.binaryMessenger, "message_bridge/sms")
             .setMethodCallHandler { call, result ->
-                val store = ForwardingStore(this)
-                try {
-                    when (call.method) {
-                        "status" -> {
-                            val config = store.config()
-                            result.success(mapOf(
-                                "enabled" to store.enabled,
-                                "permission" to hasSmsPermission(),
-                                "account" to config.optString("account"),
-                                "from" to config.optString("from"),
-                                "to" to config.optString("to"),
-                                "sender" to config.optString("sender"),
-                                "hasToken" to config.optString("token").isNotEmpty(),
-                                "status" to store.status
-                            ))
-                        }
-                        "save" -> {
-                            check(!store.enabled) { "Pause forwarding before changing settings." }
-                            val input = JSONObject(call.arguments as Map<*, *>)
-                            if (input.optString("token").isEmpty()) {
-                                input.put("token", store.config().optString("token"))
-                            }
-                            require(Regex("AC[a-fA-F0-9]{32}").matches(input.optString("account"))) { "Enter a valid Twilio Account SID." }
-                            require(input.optString("token").isNotBlank()) { "Enter the Twilio auth token." }
-                            for (key in listOf("from", "to")) {
-                                require(Regex("\\+[1-9]\\d{6,14}").matches(input.optString(key))) { "Use international numbers, for example +254712345678." }
-                            }
-                            store.saveConfig(input)
-                            result.success(null)
-                        }
-                        "enable" -> {
-                            require(store.config().optString("token").isNotEmpty()) { "Save your connection first." }
-                            if (hasSmsPermission()) {
-                                store.enabled = true
-                                result.success(true)
-                            } else if (pending == null) {
-                                pending = result
-                                requestPermissions(arrayOf(Manifest.permission.RECEIVE_SMS), 401)
-                            } else {
-                                result.error("busy", "An SMS permission request is already open.", null)
-                            }
-                        }
-                        "disable" -> {
-                            store.enabled = false
-                            androidx.work.WorkManager.getInstance(this).cancelAllWorkByTag("sms-forwarding")
-                            result.success(null)
-                        }
-                        else -> result.notImplemented()
+                when (call.method) {
+                    "hasPermission" -> result.success(hasSmsPermission())
+                    "requestPermission" -> requestSmsPermission(result)
+                    "openSettings" -> {
+                        startActivity(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", packageName, null)
+                            )
+                        )
+                        result.success(null)
                     }
-                } catch (error: Exception) {
-                    result.error("configuration", error.message ?: "Could not update forwarding.", null)
+                    "list" -> {
+                        try {
+                            result.success(listSms())
+                        } catch (_: SecurityException) {
+                            result.error(
+                                "permission",
+                                "This phone did not allow Message Bridge to read texts.",
+                                null
+                            )
+                        }
+                    }
+                    else -> result.notImplemented()
                 }
             }
     }
 
-    private fun hasSmsPermission() = checkSelfPermission(Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED
+    /** Drops the Twilio token and queued SMS left by the removed forwarding feature. */
+    private fun clearRetiredForwardingData() {
+        getSharedPreferences("forwarding", Context.MODE_PRIVATE).edit().clear().commit()
+        try {
+            val store = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+            if (store.containsAlias("message_bridge")) {
+                store.deleteEntry("message_bridge")
+            }
+        } catch (_: Exception) {
+        }
+    }
 
-    override fun onRequestPermissionsResult(code: Int, permissions: Array<out String>, grants: IntArray) {
+    private fun hasSmsPermission() =
+        checkSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestSmsPermission(result: MethodChannel.Result) {
+        if (hasSmsPermission()) {
+            result.success(true)
+            return
+        }
+        if (pending != null) {
+            result.error("busy", "An SMS permission request is already open.", null)
+            return
+        }
+        pending = result
+        requestPermissions(arrayOf(Manifest.permission.READ_SMS), 402)
+    }
+
+    private fun listSms(): List<Map<String, Any>> {
+        if (!hasSmsPermission()) throw SecurityException("SMS permission is required.")
+        val messages = mutableListOf<Map<String, Any>>()
+        val cursor = contentResolver.query(
+            Telephony.Sms.CONTENT_URI,
+            arrayOf(
+                Telephony.Sms._ID,
+                Telephony.Sms.ADDRESS,
+                Telephony.Sms.BODY,
+                Telephony.Sms.DATE,
+                Telephony.Sms.TYPE
+            ),
+            "${Telephony.Sms.TYPE} IN (?, ?)",
+            arrayOf(
+                Telephony.Sms.MESSAGE_TYPE_INBOX.toString(),
+                Telephony.Sms.MESSAGE_TYPE_SENT.toString()
+            ),
+            "${Telephony.Sms.DATE} DESC"
+        ) ?: return messages
+        cursor.use {
+            val idIndex = it.getColumnIndexOrThrow(Telephony.Sms._ID)
+            val addressIndex = it.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)
+            val bodyIndex = it.getColumnIndexOrThrow(Telephony.Sms.BODY)
+            val dateIndex = it.getColumnIndexOrThrow(Telephony.Sms.DATE)
+            val typeIndex = it.getColumnIndexOrThrow(Telephony.Sms.TYPE)
+            while (it.moveToNext() && messages.size < 200) {
+                val type = it.getInt(typeIndex)
+                messages.add(
+                    mapOf(
+                        "id" to it.getLong(idIndex).toString(),
+                        "address" to (it.getString(addressIndex) ?: ""),
+                        "body" to (it.getString(bodyIndex) ?: ""),
+                        "date" to it.getLong(dateIndex),
+                        "box" to if (type == Telephony.Sms.MESSAGE_TYPE_SENT) "sent" else "inbox"
+                    )
+                )
+            }
+        }
+        return messages
+    }
+
+    override fun onRequestPermissionsResult(
+        code: Int,
+        permissions: Array<out String>,
+        grants: IntArray
+    ) {
         super.onRequestPermissionsResult(code, permissions, grants)
-        if (code == 401) {
-            val granted = grants.firstOrNull() == PackageManager.PERMISSION_GRANTED
-            ForwardingStore(this).enabled = granted
-            pending?.success(granted)
+        if (code == 402) {
+            pending?.success(grants.firstOrNull() == PackageManager.PERMISSION_GRANTED)
             pending = null
         }
     }

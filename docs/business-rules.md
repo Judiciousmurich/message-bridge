@@ -11,8 +11,42 @@ Kotlin source paths are relative to
 
 ## Active rules
 
-### BR-026 — New SMS is forwarded automatically through Twilio
+### BR-031 — Android lists texts and opens a chosen one in WhatsApp
 - Status: Active
+- Type: Behavior
+- Rule: On Android, after the user grants SMS read permission, the app lists up
+  to 200 of the newest received and sent SMS messages stored on that phone.
+  The user can open a chosen text in WhatsApp Messenger with the text
+  prefilled and then taps Send. The screen does not ask for Twilio. The app
+  does not upload the texts or call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
+- History:
+  - 2026-11-12 — Restored the text list after the Twilio setup screen was
+    rejected. Supersedes BR-026. Ledger: Restore the text list.
+
+### BR-024 — iOS cannot read the Messages inbox
+- Status: Active
+- Type: Constraint
+- Rule: On iOS, the app cannot read the Messages inbox. The user copies or
+  types a message and opens WhatsApp Messenger with it prefilled, then taps
+  Send.
+- Source: `README.md`, `lib/compose_page.dart`
+- History:
+  - 2026-11-05 — Added because iOS provides no general API for reading SMS.
+    Supersedes the shared-composer part of BR-022. Ledger: Read phone texts
+    into WhatsApp.
+  - 2026-11-05 — Kept after a request for the same inbox on iOS. A normal app
+    still has no API for the Messages inbox. Ledger: Read Android texts; iOS
+    inbox stays blocked.
+  - 2026-11-06 — Automatic Twilio forwarding is Android-only. Ledger: Forward
+    new SMS through Twilio.
+  - 2026-11-12 — Android again shows the text list. iOS stays on paste. Ledger:
+    Restore the text list.
+
+## Superseded rules
+
+### BR-026 — New SMS is forwarded automatically through Twilio
+- Status: Superseded by BR-031
 - Type: Behavior
 - Rule: On Android, after the user saves the Twilio WhatsApp connection and
   enables forwarding, each new incoming SMS that passes the optional exact
@@ -25,9 +59,11 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-06 — Added for unattended SMS-to-WhatsApp forwarding. Supersedes
     BR-023. Ledger: Forward new SMS through Twilio.
+  - 2026-11-12 — Superseded. The Twilio setup screen was removed and the text
+    list returned. Ledger: Restore the text list.
 
 ### BR-027 — The phone's Messages app is left unchanged
-- Status: Active
+- Status: Superseded by BR-031
 - Type: Constraint
 - Rule: Forwarding uses the new-SMS broadcast only. The app does not read,
   delete, or rewrite the existing Messages inbox, and it does not replace the
@@ -36,9 +72,11 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-06 — Added with unattended forwarding. Ledger: Forward new SMS
     through Twilio.
+  - 2026-11-12 — Superseded. The app lists stored texts again and does not
+    delete them. Ledger: Restore the text list.
 
 ### BR-028 — Twilio secrets stay encrypted on the phone
-- Status: Active
+- Status: Retired
 - Type: Constraint
 - Rule: The Account SID, auth token, sender, and recipient are entered on the
   phone. The token and a queued SMS body are encrypted with a device-bound
@@ -47,9 +85,11 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-06 — Added when Twilio forwarding returned. Ledger: Forward new
     SMS through Twilio.
+  - 2026-11-12 — Retired. The app no longer collects Twilio credentials.
+    Ledger: Restore the text list.
 
 ### BR-029 — An uncertain Twilio submission is not sent again
-- Status: Active
+- Status: Retired
 - Type: Behavior
 - Rule: If a submission's outcome is unknown, the app must not send it again.
   The status tells the user to check Twilio's logs. "Accepted by Twilio" means
@@ -58,9 +98,11 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-06 — Added when Twilio forwarding returned. Ledger: Forward new
     SMS through Twilio.
+  - 2026-11-12 — Retired. The app no longer calls Twilio. Ledger: Restore the
+    text list.
 
 ### BR-030 — SMS reception is for a private install
-- Status: Active
+- Status: Superseded by BR-031
 - Type: Constraint
 - Rule: Receiving SMS requires a runtime permission. Google Play distribution
   needs eligibility and a permissions declaration. This build is for a private
@@ -70,24 +112,8 @@ Kotlin source paths are relative to
 - History:
   - 2026-11-06 — Added when forwarding uses the SMS broadcast again. Supersedes
     BR-025. Ledger: Forward new SMS through Twilio.
-
-### BR-024 — iOS cannot read the Messages inbox
-- Status: Active
-- Type: Constraint
-- Rule: On iOS, the app cannot read the Messages inbox or receive incoming SMS.
-  Automatic forwarding is Android-only.
-- Source: `README.md`, `lib/main.dart`
-- History:
-  - 2026-11-05 — Added because iOS provides no general API for reading SMS.
-    Supersedes the shared-composer part of BR-022. Ledger: Read phone texts
-    into WhatsApp.
-  - 2026-11-05 — Kept after a request for the same inbox on iOS. A normal app
-    still has no API for the Messages inbox. Ledger: Read Android texts; iOS
-    inbox stays blocked.
-  - 2026-11-06 — Automatic Twilio forwarding is Android-only. Ledger: Forward
-    new SMS through Twilio.
-
-## Superseded rules
+  - 2026-11-12 — Superseded. The app reads stored texts with permission and
+    does not receive them in the background. Ledger: Restore the text list.
 
 ### BR-023 — Android lists texts and opens a chosen one in WhatsApp
 - Status: Superseded by BR-026

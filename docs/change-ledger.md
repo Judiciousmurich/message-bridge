@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-12 11:40 — Restore the text list
+- Intent: Remove the Twilio setup screen and show the previous text list that opens WhatsApp Messenger.
+- Changed: Removed the Twilio receiver, worker, store, and setup screen. Restored `lib/sms_inbox_page.dart` and the SMS read channel. Updated `README.md` and `docs/business-rules.md`.
+- Changed: Installed the new debug build on the itel A667L and opened it.
+- Behavior: Android lists stored texts and opens a chosen one in WhatsApp Messenger. The user taps Send. The app does not call Twilio. iOS stays on paste.
+- Business rules: BR-026 and BR-030 superseded by BR-031. BR-027 superseded by BR-031. BR-028 and BR-029 retired. BR-024 updated.
+- Verification: `flutter analyze` reported no issues. The first `flutter test` failed because the disk was full; after freeing generated build files, `flutter test` passed (4 tests). `flutter build apk --debug --target-platform android-arm` built `app-debug.apk`. `adb install -r` succeeded and `am start` launched `MainActivity`. `READ_SMS` is not granted yet.
+- Commit: `feat(android): restore the text list`
+
 ## 2026-11-12 11:25 — Install forwarding build on the phone
 - Intent: The Android phone is connected, so install the Twilio forwarding build and open it.
 - Changed: Installed `app-debug.apk` on the itel A667L and launched Message Bridge. `docs/change-ledger.md` records the install.
