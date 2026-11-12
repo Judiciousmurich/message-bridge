@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-12 11:25 — Install forwarding build on the phone
+- Intent: The Android phone is connected, so install the Twilio forwarding build and open it.
+- Changed: Installed `app-debug.apk` on the itel A667L and launched Message Bridge. `docs/change-ledger.md` records the install.
+- Findings: The previous install was the November 5 build with `READ_SMS` granted. The new build is installed. `RECEIVE_SMS` is not granted yet. No message contents or Twilio credentials were read.
+- Behavior: The setup screen is open. Forwarding starts after the user saves the Twilio connection, enables it, and allows SMS access.
+- Business rules: none. BR-026 applies after that setup.
+- Verification: `adb devices` showed the itel phone. `adb install -r` succeeded. `am start` launched `MainActivity`. `dumpsys package` showed `RECEIVE_SMS` granted false.
+- Commit: `docs(android): install forwarding build on the phone`
+
 ## 2026-11-10 16:23 — Check whether texts are already forwarding
 - Intent: Answer whether all messages are now being sent to WhatsApp.
 - Changed: `docs/change-ledger.md` records the check. No application code changed.
