@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-12 13:20 — Open a tapped text in WhatsApp
+- Intent: A text shown in Message Bridge should open in WhatsApp already filled in, leaving only Send.
+- Changed: `lib/sms_inbox_page.dart` saves one WhatsApp number and opens that chat when a text is tapped. `MainActivity.kt` stores the number on the phone. `README.md` and `docs/business-rules.md` match.
+- Behavior: After the number is saved, tapping a text opens WhatsApp with that text filled in. The user taps Send. The app does not call Twilio.
+- Business rules: BR-031 superseded by BR-032.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (4 tests). `flutter build apk --debug --target-platform android-arm` built `app-debug.apk`. `adb install` failed because no phone was attached.
+- Commit: `feat(android): open a tapped text in WhatsApp`
+
 ## 2026-11-12 11:40 — Restore the text list
 - Intent: Remove the Twilio setup screen and show the previous text list that opens WhatsApp Messenger.
 - Changed: Removed the Twilio receiver, worker, store, and setup screen. Restored `lib/sms_inbox_page.dart` and the SMS read channel. Updated `README.md` and `docs/business-rules.md`.

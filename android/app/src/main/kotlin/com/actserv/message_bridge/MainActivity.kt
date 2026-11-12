@@ -48,6 +48,12 @@ class MainActivity : FlutterActivity() {
                             )
                         }
                     }
+                    "getRecipient" -> result.success(recipient())
+                    "setRecipient" -> {
+                        val number = call.argument<String>("number")?.trim().orEmpty()
+                        destination().edit().putString("number", number).apply()
+                        result.success(null)
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -64,6 +70,11 @@ class MainActivity : FlutterActivity() {
         } catch (_: Exception) {
         }
     }
+
+    private fun destination() =
+        getSharedPreferences("whatsapp_destination", Context.MODE_PRIVATE)
+
+    private fun recipient() = destination().getString("number", "") ?: ""
 
     private fun hasSmsPermission() =
         checkSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED

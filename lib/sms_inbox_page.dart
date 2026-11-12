@@ -45,11 +45,18 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
   var _opening = false;
   String? _error;
   List<PhoneText> _messages = const [];
+  final _whatsappNumber = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _whatsappNumber.dispose();
+    super.dispose();
   }
 
   void _notice(String text) {
@@ -64,7 +71,9 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
     });
     try {
       final granted = await _channel.invokeMethod<bool>('hasPermission') ?? false;
+      final saved = await _channel.invokeMethod<String>('getRecipient') ?? '';
       if (!mounted) return;
+      if (_whatsappNumber.text.isEmpty) _whatsappNumber.text = saved;
       if (!granted) {
         setState(() {
           _needsPermission = true;
@@ -129,21 +138,25 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
     }
   }
 
+  Future<void> _rememberNumber(String value) async {
+    try {
+      await _channel.invokeMethod<void>('setRecipient', {'number': value.trim()});
+    } catch (_) {}
+  }
+
   Future<void> _send(PhoneText message) async {
     if (_opening) return;
+    final number = _whatsappNumber.text.trim();
+    if (!RegExp(r'^\+[1-9]\d{6,14}$').hasMatch(number)) {
+      _notice('Add your WhatsApp number above, then tap the text.');
+      return;
+    }
     setState(() => _opening = true);
-    final notice = await openWhatsApp(message.body, '');
+    await _rememberNumber(number);
+    final notice = await openWhatsApp(message.body, number);
     if (!mounted) return;
     if (notice != null) _notice(notice);
     setState(() => _opening = false);
-  }
-
-  void _edit(PhoneText message) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => ComposePage(initialMessage: message.body),
-      ),
-    );
   }
 
   String _when(int millis) {
@@ -166,13 +179,6 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
               tooltip: 'Refresh texts',
               onPressed: _loading ? null : _load,
               icon: const Icon(Icons.refresh),
-            ),
-            IconButton(
-              tooltip: 'Type a message',
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const ComposePage()),
-              ),
-              icon: const Icon(Icons.edit_outlined),
             ),
           ],
         ),
@@ -197,7 +203,23 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                                       height: 1.15)),
                           const SizedBox(height: 14),
                           const Text(
-                              'Message Bridge reads the SMS messages already stored on this Android phone. Choose one to open it in WhatsApp, then tap Send there.'),
+                              'Tap a text. It opens in WhatsApp with the words already filled in. You only tap Send.'),
+                          const SizedBox(height: 16),
+                          TextField(
+                            controller: _whatsappNumber,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              labelText: 'Your WhatsApp number',
+                              hintText: '+254712345678',
+                              helperText:
+                                  'Saved on this phone. Each text opens in this chat.',
+                              helperMaxLines: 2,
+                              prefixIcon: Icon(Icons.chat_rounded),
+                            ),
+                            onChanged: (value) {
+                              _rememberNumber(value);
+                            },
+                          ),
                           const SizedBox(height: 20),
                           if (_needsPermission) ...[
                             const Text(
@@ -227,38 +249,32 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                             ),
                           for (final message in _messages) ...[
                             Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(message.address,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                        '${message.sent ? 'Sent' : 'Received'} · ${_when(message.dateMillis)}'),
-                                    const SizedBox(height: 8),
-                                    Text(message.body),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        TextButton(
-                                          onPressed: () => _edit(message),
-                                          child: const Text('Edit'),
-                                        ),
-                                        const Spacer(),
-                                        TextButton(
-                                          onPressed: _opening
-                                              ? null
-                                              : () => _send(message),
-                                          child: const Text(
-                                              'Continue in WhatsApp'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: _opening ? null : () => _send(message),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(message.address,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                          '${message.sent ? 'Sent' : 'Received'} · ${_when(message.dateMillis)}'),
+                                      const SizedBox(height: 8),
+                                      Text(message.body),
+                                      const SizedBox(height: 8),
+                                      Text('Open in WhatsApp',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                  color: const Color(0xFF087F62))),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

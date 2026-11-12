@@ -11,13 +11,15 @@ void main() {
         .setMockMethodCallHandler(channel, null);
   });
 
-  testWidgets('lists a text from the phone and opens it for editing',
+  testWidgets('tapping a text opens it in the saved WhatsApp chat',
       (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
+    final calls = <String>[];
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
       channel,
       (call) async {
+        calls.add(call.method);
         if (call.method == 'hasPermission') return true;
         if (call.method == 'list') {
           return [
@@ -33,13 +35,22 @@ void main() {
         return null;
       },
     );
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel(
+          'dev.flutter.pigeon.url_launcher_android.UrlLauncherApi.launchUrl'),
+      (call) async => null,
+    );
     await tester.pumpWidget(const MaterialApp(home: SmsInboxPage()));
     await tester.pumpAndSettle();
     expect(find.text('Rent is due Friday'), findsOneWidget);
     expect(find.text('+254700000001'), findsOneWidget);
-    await tester.tap(find.text('Edit'));
-    await tester.pumpAndSettle();
-    expect(find.widgetWithText(TextField, 'Rent is due Friday'), findsOneWidget);
+    expect(find.text('Continue in WhatsApp'), findsNothing);
+    await tester.enterText(find.byType(TextField), '+254712345678');
+    await tester.ensureVisible(find.text('Open in WhatsApp'));
+    await tester.tap(find.text('Open in WhatsApp'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(calls.where((call) => call == 'setRecipient').length, 2);
   });
 
   testWidgets('asks before reading texts', (tester) async {

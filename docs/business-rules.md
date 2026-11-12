@@ -11,18 +11,17 @@ Kotlin source paths are relative to
 
 ## Active rules
 
-### BR-031 — Android lists texts and opens a chosen one in WhatsApp
+### BR-032 — Tapping a text opens it in the saved WhatsApp chat
 - Status: Active
 - Type: Behavior
-- Rule: On Android, after the user grants SMS read permission, the app lists up
-  to 200 of the newest received and sent SMS messages stored on that phone.
-  The user can open a chosen text in WhatsApp Messenger with the text
-  prefilled and then taps Send. The screen does not ask for Twilio. The app
-  does not upload the texts or call Twilio.
+- Rule: On Android, after SMS read permission, the app lists up to 200 of the
+  newest received and sent texts. The user saves one WhatsApp number on the
+  phone. Tapping a text opens WhatsApp Messenger with that text filled in for
+  that number. The user taps Send in WhatsApp. The app does not call Twilio.
 - Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
 - History:
-  - 2026-11-12 — Restored the text list after the Twilio setup screen was
-    rejected. Supersedes BR-026. Ledger: Restore the text list.
+  - 2026-11-12 — Added so a listed text opens directly in the saved WhatsApp
+    chat. Supersedes BR-031. Ledger: Open a tapped text in WhatsApp.
 
 ### BR-024 — iOS cannot read the Messages inbox
 - Status: Active
@@ -44,6 +43,21 @@ Kotlin source paths are relative to
     Restore the text list.
 
 ## Superseded rules
+
+### BR-031 — Android lists texts and opens a chosen one in WhatsApp
+- Status: Superseded by BR-032
+- Type: Behavior
+- Rule: On Android, after the user grants SMS read permission, the app lists up
+  to 200 of the newest received and sent SMS messages stored on that phone.
+  The user can open a chosen text in WhatsApp Messenger with the text
+  prefilled and then taps Send. The screen does not ask for Twilio. The app
+  does not upload the texts or call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
+- History:
+  - 2026-11-12 — Restored the text list after the Twilio setup screen was
+    rejected. Supersedes BR-026. Ledger: Restore the text list.
+  - 2026-11-12 — Superseded. A tap now opens the saved WhatsApp number with
+    the text filled in. Ledger: Open a tapped text in WhatsApp.
 
 ### BR-026 — New SMS is forwarded automatically through Twilio
 - Status: Superseded by BR-031
