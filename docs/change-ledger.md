@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:36 — Restore dropped ledger entries
+- Intent: Four earlier entries were missing from the ledger file after today's batch was recorded.
+- Changed: `docs/change-ledger.md` puts those entries back. `docs/business-rules.md` keeps both BR-033 history lines.
+- Behavior: none.
+- Business rules: BR-033 updated.
+- Verification: not run (docs only).
+- Commit: `docs(rules): restore dropped ledger entries`
+
 ## 2026-11-17 17:35 — Send today's texts together
 - Intent: Opening one text at a time is too slow when many texts arrived today.
 - Changed: `lib/sms_inbox_page.dart` can send today's texts as one WhatsApp message and copy every listed text. `lib/compose_page.dart` can open the saved chat without a prefilled message when the bundle is long. `README.md`, `docs/business-rules.md`, and `test/sms_inbox_test.dart` match.
@@ -11,6 +19,41 @@ Business rules are tracked separately in
 - Business rules: BR-033 added.
 - Verification: `flutter analyze` reported no issues. `flutter test` passed (8 tests). `flutter build apk --debug --target-platform android-arm` built `app-debug.apk`. `adb install -r` reported Success. `am start` opened `com.actserv.message_bridge/.MainActivity`.
 - Commit: `feat(ui): send today's texts together`
+
+## 2026-11-17 17:26 — Steps for the locked Play signing checkbox
+- Intent: The user asked to continue and accept the Play App Signing terms as an admin. The checkbox on the Create app page is locked.
+- Changed: `docs/change-ledger.md` records the next step. No application code changed.
+- Findings: This signed-in account cannot tick the box. The developer account owner signs in on the same Create app page and ticks it, or grants this account account-admin permission under Users and permissions.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): record the Play signing acceptance steps`
+
+## 2026-11-17 17:23 — The Play signing checkbox is locked
+- Intent: The Create app page shows the Play App Signing checkbox locked, with a message to contact the account owner or administrator.
+- Changed: `docs/change-ledger.md` records the locked checkbox. No application code changed.
+- Findings: The signed-in account cannot tick Accept the Play app signing Terms of Service. The account owner has to sign in on this page and tick it, or grant this account account-admin permission.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note the locked Play signing checkbox`
+
+## 2026-11-17 17:22 — Where an admin accepts Play signing terms
+- Intent: The user is an admin and still cannot accept the Play App Signing Terms of Service.
+- Changed: `docs/change-ledger.md` records where those terms are accepted. No application code changed.
+- Findings: Accepting the terms needs the Play account owner or an account admin. An admin of this app alone cannot accept them. The account owner accepts them under Protected with Play, Play Store protection, Manage Play app signing, or in the Declarations section while creating the app.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note where Play signing terms are accepted`
+
+## 2026-11-17 17:21 — Copy or open every listed text
+- Intent: The user can open one text, and also wants every listed text copied or sent to the saved WhatsApp number without tapping each one.
+- Changed: `lib/sms_inbox_page.dart` adds Copy all texts and Open all in WhatsApp. `lib/compose_page.dart` can open the saved chat with an empty draft when the combined text is too long. `README.md`, `docs/business-rules.md`, and `test/sms_inbox_test.dart` match.
+- Behavior: One tap still opens one text. Copy all copies the list, oldest first. Open all puts that list in the saved WhatsApp chat. If it is longer than one draft, the list is copied and the chat opens so the user can paste, then tap Send.
+- Business rules: BR-033 added.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (8 tests). The new build was not installed on the phone.
+- Commit: `feat(ui): copy or open every listed text`
 
 ## 2026-11-17 17:11 — Accept the saved WhatsApp number
 - Intent: A saved number was rejected on tap unless it was a plus followed by digits with no spaces.

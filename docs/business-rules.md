@@ -36,8 +36,10 @@ Kotlin source paths are relative to
   alone. The app does not call Twilio.
 - Source: `README.md`, `lib/sms_inbox_page.dart`
 - History:
-  - 2026-11-17 — Added so a day's texts do not each need their own tap.
-    Ledger: Send today's texts together.
+  - 2026-11-17 — Added so a list of texts does not need one tap each. Ledger:
+    Copy or open every listed text.
+  - 2026-11-17 — The WhatsApp batch is the current day's texts. Copy all still
+    copies the whole list. Ledger: Send today's texts together.
 
 ### BR-024 — iOS cannot read the Messages inbox
 - Status: Active
