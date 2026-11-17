@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:22 — Where an admin accepts Play signing terms
+- Intent: The user is an admin and still cannot accept the Play App Signing Terms of Service.
+- Changed: `docs/change-ledger.md` records where those terms are accepted. No application code changed.
+- Findings: Accepting the terms needs the Play account owner or an account admin. An admin of this app alone cannot accept them. The account owner accepts them under Protected with Play, Play Store protection, Manage Play app signing, or in the Declarations section while creating the app.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note where Play signing terms are accepted`
+
 ## 2026-11-17 17:21 — Copy or open every listed text
 - Intent: The user can open one text, and also wants every listed text copied or sent to the saved WhatsApp number without tapping each one.
 - Changed: `lib/sms_inbox_page.dart` adds Copy all texts and Open all in WhatsApp. `lib/compose_page.dart` can open the saved chat with an empty draft when the combined text is too long. `README.md`, `docs/business-rules.md`, and `test/sms_inbox_test.dart` match.
