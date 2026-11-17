@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:54 — Play dashboard needs a Google sign-in
+- Intent: The user asked to deploy Message Bridge from the Play Console app dashboard.
+- Changed: `docs/change-ledger.md` records the block. No application code changed.
+- Findings: Opening the dashboard reaches a Google sign-in page. This session is not signed into the Play account. Release builds still use the debug signing config, so there is no Play upload bundle yet.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). The dashboard URL redirected to Google sign-in.
+- Commit: `docs(android): note the Play dashboard sign-in`
+
 ## 2026-11-17 17:47 — Play app exists as a draft
 - Intent: The user showed that Message Bridge now exists in Google Play Console.
 - Changed: `docs/change-ledger.md` records the draft. No application code changed.
