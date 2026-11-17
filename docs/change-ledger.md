@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 16:51 — Play app signing terms need an admin
+- Intent: Play Console says the signed-in user cannot accept the Play App Signing Terms of Service.
+- Changed: `docs/change-ledger.md` records the block. No application code changed.
+- Findings: Only the developer account owner or an administrator can accept those terms. Release builds in `android/app/build.gradle` still use the debug signing config.
+- Behavior: none.
+- Business rules: none. BR-032 still applies.
+- Verification: not run (docs only).
+- Commit: `docs(android): note the Play signing terms block`
+
 ## 2026-11-17 16:47 — Fill the Play Console create form
 - Intent: The user started creating Message Bridge in Google Play Console and needs the form values.
 - Changed: `docs/change-ledger.md` records the values. No application code changed.
