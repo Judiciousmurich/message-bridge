@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:40 — Push main to GitHub
+- Intent: The user asked to push the project to GitHub.
+- Changed: `main` on `https://github.com/Judiciousmurich/message-bridge.git` moved from `668ef1e` to `5670964`. No application code changed.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `git push origin main` completed, `668ef1e..5670964`.
+- Commit: `docs(agent): record the GitHub push`
+
 ## 2026-11-17 17:36 — Restore dropped ledger entries
 - Intent: Four earlier entries were missing from the ledger file after today's batch was recorded.
 - Changed: `docs/change-ledger.md` puts those entries back. `docs/business-rules.md` keeps both BR-033 history lines.
