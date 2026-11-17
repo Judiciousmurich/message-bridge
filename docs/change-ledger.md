@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 16:47 — Fill the Play Console create form
+- Intent: The user started creating Message Bridge in Google Play Console and needs the form values.
+- Changed: `docs/change-ledger.md` records the values. No application code changed.
+- Findings: App name is Message Bridge. Package name is `com.actserv.message_bridge`. Type is App and price is Free. The app requests `READ_SMS`, which Play restricts and requires a permissions declaration.
+- Behavior: none.
+- Business rules: none. BR-032 still applies.
+- Verification: not run (docs only). Compared the form with `android/app/build.gradle` and `AndroidManifest.xml`.
+- Commit: `docs(android): fill the Play Console create form`
+
 ## 2026-11-12 13:20 — Open a tapped text in WhatsApp
 - Intent: A text shown in Message Bridge should open in WhatsApp already filled in, leaving only Send.
 - Changed: `lib/sms_inbox_page.dart` saves one WhatsApp number and opens that chat when a text is tapped. `MainActivity.kt` stores the number on the phone. `README.md` and `docs/business-rules.md` match.
