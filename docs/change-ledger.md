@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:47 — Play app exists as a draft
+- Intent: The user showed that Message Bridge now exists in Google Play Console.
+- Changed: `docs/change-ledger.md` records the draft. No application code changed.
+- Findings: The listing is Message Bridge, package `com.actserv.message_bridge`, status Draft, last updated 17 Nov 2026. That package matches `applicationId`. Release builds still use the debug signing config, so this project cannot upload a Play release yet.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). Compared the listing with `android/app/build.gradle`.
+- Commit: `docs(android): note the Play app draft`
+
 ## 2026-11-17 17:40 — Push main to GitHub
 - Intent: The user asked to push the project to GitHub.
 - Changed: `main` on `https://github.com/Judiciousmurich/message-bridge.git` moved from `668ef1e` to `5670964`. No application code changed.
