@@ -18,6 +18,7 @@ flutter run
 ```
 
 On Android, grant SMS access when asked. Enter your WhatsApp number once.
+A number starting with 07 or 01 is saved as +254. Spaces are fine.
 WhatsApp must be installed. Tap a text and then tap Send in WhatsApp.
 
 The list shows the 200 newest received and sent texts. Google Play restricts

@@ -146,10 +146,19 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
 
   Future<void> _send(PhoneText message) async {
     if (_opening) return;
-    final number = _whatsappNumber.text.trim();
-    if (!RegExp(r'^\+[1-9]\d{6,14}$').hasMatch(number)) {
-      _notice('Add your WhatsApp number above, then tap the text.');
+    final digits = whatsAppDigits(_whatsappNumber.text);
+    if (digits == null) {
+      _notice(_whatsappNumber.text.trim().isEmpty
+          ? 'Add your WhatsApp number above, then tap the text.'
+          : 'Use the country code, for example +254712345678.');
       return;
+    }
+    final number = '+$digits';
+    if (_whatsappNumber.text != number) {
+      _whatsappNumber.value = TextEditingValue(
+        text: number,
+        selection: TextSelection.collapsed(offset: number.length),
+      );
     }
     setState(() => _opening = true);
     await _rememberNumber(number);
@@ -212,7 +221,7 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                               labelText: 'Your WhatsApp number',
                               hintText: '+254712345678',
                               helperText:
-                                  'Saved on this phone. Each text opens in this chat.',
+                                  'Saved on this phone. 07… is read as +254.',
                               helperMaxLines: 2,
                               prefixIcon: Icon(Icons.chat_rounded),
                             ),

@@ -4,6 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:message_bridge/main.dart';
 
 void main() {
+  test('reads a local or spaced WhatsApp number', () {
+    expect(whatsAppDigits('0712345678'), '254712345678');
+    expect(whatsAppDigits('0112345678'), '254112345678');
+    expect(whatsAppDigits('+254 712 345 678'), '254712345678');
+    expect(whatsAppDigits('254712345678'), '254712345678');
+    expect(whatsAppDigits('abc'), isNull);
+  });
+
   testWidgets('pastes clipboard text and clears draft', (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));

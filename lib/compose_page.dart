@@ -3,13 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Digits for a WhatsApp chat, without a leading plus.
+/// A Kenyan mobile that starts with 0 is returned with country code 254.
+String? whatsAppDigits(String raw) {
+  var value = raw.trim().replaceAll(RegExp(r'[\s().-]'), '');
+  if (value.startsWith('00')) value = '+${value.substring(2)}';
+  if (RegExp(r'^0[17]\d{8}$').hasMatch(value)) {
+    value = '+254${value.substring(1)}';
+  }
+  if (value.startsWith('+')) value = value.substring(1);
+  if (!RegExp(r'^[1-9]\d{6,14}$').hasMatch(value)) return null;
+  return value;
+}
+
 /// Opens WhatsApp with [message] prefilled. Returns a notice when it cannot.
 Future<String?> openWhatsApp(String message, String rawPhone) async {
   final text = message.trim();
   if (text.isEmpty) return 'Paste or type a message first.';
-  final phone = rawPhone.replaceAll(RegExp(r'[\s()+-]'), '');
-  if (rawPhone.trim().isNotEmpty && !RegExp(r'^[1-9]\d{6,14}$').hasMatch(phone)) {
-    return 'Use an international number, for example +254712345678.';
+  var phone = '';
+  if (rawPhone.trim().isNotEmpty) {
+    final digits = whatsAppDigits(rawPhone);
+    if (digits == null) {
+      return 'Use an international number, for example +254712345678.';
+    }
+    phone = digits;
   }
   final query = 'text=${Uri.encodeComponent(text)}'
       '${phone.isEmpty ? '' : '&phone=$phone'}';

@@ -16,12 +16,16 @@ Kotlin source paths are relative to
 - Type: Behavior
 - Rule: On Android, after SMS read permission, the app lists up to 200 of the
   newest received and sent texts. The user saves one WhatsApp number on the
-  phone. Tapping a text opens WhatsApp Messenger with that text filled in for
-  that number. The user taps Send in WhatsApp. The app does not call Twilio.
+  phone. Spaces are ignored. A mobile number that starts with 0 is saved as a
+  Kenyan +254 number. Tapping a text opens WhatsApp Messenger with that text
+  filled in for that number. The user taps Send in WhatsApp. The app does not
+  call Twilio.
 - Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
 - History:
   - 2026-11-12 — Added so a listed text opens directly in the saved WhatsApp
     chat. Supersedes BR-031. Ledger: Open a tapped text in WhatsApp.
+  - 2026-11-17 — A saved number with spaces, or a Kenyan mobile starting with
+    0, still opens the WhatsApp chat. Ledger: Accept the saved WhatsApp number.
 
 ### BR-024 — iOS cannot read the Messages inbox
 - Status: Active

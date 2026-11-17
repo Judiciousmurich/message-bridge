@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:11 — Accept the saved WhatsApp number
+- Intent: A saved number was rejected on tap unless it was a plus followed by digits with no spaces.
+- Changed: `lib/compose_page.dart` accepts `+254…` and a Kenyan `07` or `01` mobile. `lib/sms_inbox_page.dart` uses that check before opening WhatsApp. `README.md`, `docs/business-rules.md`, and the tests match.
+- Behavior: Tapping a text opens WhatsApp when the saved number uses `+` or starts with `07`. A `07` number is stored as `+254`.
+- Business rules: BR-032 updated.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (6 tests). `flutter build apk --debug --target-platform android-arm` built `app-debug.apk`. `adb install -r` reported Success. `am start` opened `com.actserv.message_bridge/.MainActivity`.
+- Commit: `fix(ui): accept +254 and 07 WhatsApp numbers`
+
 ## 2026-11-17 17:06 — Run the app on the connected phone
 - Intent: The user connected the itel A667L and asked to run the project.
 - Changed: Built and installed the current debug app. No source files changed.

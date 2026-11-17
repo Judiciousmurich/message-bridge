@@ -53,6 +53,43 @@ void main() {
     expect(calls.where((call) => call == 'setRecipient').length, 2);
   });
 
+  testWidgets('a 07 number is accepted when a text is tapped', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(800, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final saved = <String>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      channel,
+      (call) async {
+        if (call.method == 'hasPermission') return true;
+        if (call.method == 'list') {
+          return [
+            {
+              'id': '7',
+              'address': '+254700000001',
+              'body': 'Rent is due Friday',
+              'date': 1762300800000,
+              'box': 'inbox',
+            }
+          ];
+        }
+        if (call.method == 'setRecipient') {
+          saved.add((call.arguments as Map)['number'] as String);
+        }
+        return null;
+      },
+    );
+    await tester.pumpWidget(const MaterialApp(home: SmsInboxPage()));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), '0712345678');
+    await tester.ensureVisible(find.text('Open in WhatsApp'));
+    await tester.tap(find.text('Open in WhatsApp'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Add your WhatsApp number above, then tap the text.'),
+        findsNothing);
+    expect(saved.last, '+254712345678');
+  });
+
   testWidgets('asks before reading texts', (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
