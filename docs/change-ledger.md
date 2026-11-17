@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:23 — The Play signing checkbox is locked
+- Intent: The Create app page shows the Play App Signing checkbox locked, with a message to contact the account owner or administrator.
+- Changed: `docs/change-ledger.md` records the locked checkbox. No application code changed.
+- Findings: The signed-in account cannot tick Accept the Play app signing Terms of Service. The account owner has to sign in on this page and tick it, or grant this account account-admin permission.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note the locked Play signing checkbox`
+
 ## 2026-11-17 17:22 — Where an admin accepts Play signing terms
 - Intent: The user is an admin and still cannot accept the Play App Signing Terms of Service.
 - Changed: `docs/change-ledger.md` records where those terms are accepted. No application code changed.
