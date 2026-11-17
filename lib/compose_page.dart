@@ -16,6 +16,15 @@ String? whatsAppDigits(String raw) {
   return value;
 }
 
+/// Opens the saved WhatsApp chat with no message filled in.
+Future<String?> openWhatsAppNumber(String rawPhone) async {
+  final digits = whatsAppDigits(rawPhone);
+  if (digits == null) {
+    return 'Use an international number, for example +254712345678.';
+  }
+  return _launchWhatsApp('phone=$digits');
+}
+
 /// Opens WhatsApp with [message] prefilled. Returns a notice when it cannot.
 Future<String?> openWhatsApp(String message, String rawPhone) async {
   final text = message.trim();
@@ -30,27 +39,13 @@ Future<String?> openWhatsApp(String message, String rawPhone) async {
   }
   final query = 'text=${Uri.encodeComponent(text)}'
       '${phone.isEmpty ? '' : '&phone=$phone'}';
+  return _launchWhatsApp(query);
+}
+
+Future<String?> _launchWhatsApp(String query) async {
   try {
     final opened = await launchUrl(
       Uri.parse('whatsapp://send?$query'),
-      mode: LaunchMode.externalApplication,
-    );
-    if (!opened) return 'Could not open WhatsApp. Check that it is installed.';
-  } catch (_) {
-    return 'Could not open WhatsApp. Check that it is installed.';
-  }
-  return null;
-}
-
-/// Opens the saved WhatsApp chat with an empty draft.
-Future<String?> openWhatsAppNumber(String rawPhone) async {
-  final digits = whatsAppDigits(rawPhone);
-  if (digits == null) {
-    return 'Use an international number, for example +254712345678.';
-  }
-  try {
-    final opened = await launchUrl(
-      Uri.parse('whatsapp://send?phone=$digits'),
       mode: LaunchMode.externalApplication,
     );
     if (!opened) return 'Could not open WhatsApp. Check that it is installed.';

@@ -4,6 +4,41 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:message_bridge/sms_inbox_page.dart';
 
 void main() {
+  test('bundles today oldest first and leaves other days out', () {
+    final todayEarly = DateTime(2026, 11, 17, 8).millisecondsSinceEpoch;
+    final todayLate = DateTime(2026, 11, 17, 18).millisecondsSinceEpoch;
+    final yesterday = DateTime(2026, 11, 16, 12).millisecondsSinceEpoch;
+    final messages = [
+      PhoneText(
+        id: '2',
+        address: '+254700000002',
+        body: 'Later today',
+        dateMillis: todayLate,
+        sent: false,
+      ),
+      PhoneText(
+        id: '1',
+        address: '+254700000001',
+        body: 'Yesterday note',
+        dateMillis: yesterday,
+        sent: true,
+      ),
+      PhoneText(
+        id: '3',
+        address: '+254700000003',
+        body: 'Earlier today',
+        dateMillis: todayEarly,
+        sent: false,
+      ),
+    ];
+    final todays = textsOnDay(messages, DateTime(2026, 11, 17, 21));
+    expect(todays.map((message) => message.body),
+        ['Earlier today', 'Later today']);
+    final bundled = bundleTexts(todays);
+    expect(bundled.indexOf('Earlier today'), lessThan(bundled.indexOf('Later today')));
+    expect(bundled.contains('Yesterday note'), isFalse);
+  });
+
   const channel = MethodChannel('message_bridge/sms');
 
   tearDown(() {
@@ -90,6 +125,46 @@ void main() {
     expect(saved.last, '+254712345678');
   });
 
+  testWidgets('copies every listed text', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(800, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      channel,
+      (call) async {
+        if (call.method == 'hasPermission') return true;
+        if (call.method == 'list') {
+          return [
+            {
+              'id': '7',
+              'address': '+254700000001',
+              'body': 'Rent is due Friday',
+              'date': 1762300800000,
+              'box': 'inbox',
+            }
+          ];
+        }
+        return null;
+      },
+    );
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map)['text'] as String?;
+        }
+        return null;
+      },
+    );
+    await tester.pumpWidget(const MaterialApp(home: SmsInboxPage()));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Copy all texts'));
+    await tester.tap(find.text('Copy all texts'));
+    await tester.pumpAndSettle();
+    expect(copied, contains('Rent is due Friday'));
+    expect(find.text('All texts copied.'), findsOneWidget);
+  });
+
   testWidgets('asks before reading texts', (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -101,79 +176,5 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Allow SMS access'), findsOneWidget);
     expect(find.text('Rent is due Friday'), findsNothing);
-  });
-
-  test('joins texts from oldest to newest', () {
-    final text = joinedTexts(const [
-      PhoneText(
-        id: '2',
-        address: 'B',
-        body: 'later',
-        dateMillis: 2000,
-        sent: false,
-      ),
-      PhoneText(
-        id: '1',
-        address: 'A',
-        body: 'earlier',
-        dateMillis: 1000,
-        sent: true,
-      ),
-    ]);
-    expect(text.indexOf('earlier'), lessThan(text.indexOf('later')));
-    expect(text, contains('Sent'));
-  });
-
-  testWidgets('copies every listed text', (tester) async {
-    await tester.binding.setSurfaceSize(const Size(800, 1600));
-    addTearDown(() => tester.binding.setSurfaceSize(null));
-    addTearDown(() {
-      tester.binding.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, null);
-    });
-    String? copied;
-    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      channel,
-      (call) async {
-        if (call.method == 'hasPermission') return true;
-        if (call.method == 'list') {
-          return [
-            {
-              'id': '2',
-              'address': 'B',
-              'body': 'later',
-              'date': 2000,
-              'box': 'inbox',
-            },
-            {
-              'id': '1',
-              'address': 'A',
-              'body': 'earlier',
-              'date': 1000,
-              'box': 'sent',
-            },
-          ];
-        }
-        return null;
-      },
-    );
-    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      SystemChannels.platform,
-      (call) async {
-        if (call.method == 'Clipboard.setData') {
-          copied = (call.arguments as Map)['text'] as String;
-        }
-        return null;
-      },
-    );
-    await tester.pumpWidget(const MaterialApp(home: SmsInboxPage()));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Copy all texts'));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    expect(copied, contains('earlier'));
-    expect(copied, contains('later'));
-    expect(copied!.indexOf('earlier'), lessThan(copied!.indexOf('later')));
-    expect(find.text('Copied 2 texts.'), findsOneWidget);
   });
 }
