@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'bridge_look.dart';
 import 'compose_page.dart';
 import 'sms_inbox_page.dart';
 
@@ -15,16 +16,7 @@ class MessageBridge extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'Message Bridge',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF087F62)),
-          scaffoldBackgroundColor: const Color(0xFFF5F7F4),
-          inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(),
-            filled: true,
-            fillColor: Colors.white,
-          ),
-        ),
+        theme: BridgeLook.theme(),
         home: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
             ? const SmsInboxPage()
             : const ComposePage(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'bridge_look.dart';
 import 'compose_page.dart';
 
 class PhoneText {
@@ -171,111 +172,167 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xFFF5F7F4),
-          title: const Text('Message Bridge'),
-          actions: [
-            IconButton(
-              tooltip: 'Refresh texts',
-              onPressed: _loading ? null : _load,
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
-        ),
+        backgroundColor: BridgeLook.canvas,
         body: SafeArea(
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 720),
               child: _loading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(
+                      child: CircularProgressIndicator(color: BridgeLook.ink))
                   : RefreshIndicator(
+                      color: BridgeLook.ink,
                       onRefresh: _load,
                       child: ListView(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(24),
+                        padding: const EdgeInsets.fromLTRB(22, 16, 22, 36),
                         children: [
-                          Text('Texts on this phone.',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      height: 1.15)),
+                          BridgeTopBar(
+                            actionLabel: 'Refresh',
+                            onAction: _loading ? null : _load,
+                          ),
+                          const SizedBox(height: 28),
+                          const Text('Your texts,\nready to send.',
+                              style: BridgeLook.display),
                           const SizedBox(height: 14),
                           const Text(
-                              'Tap a text. It opens in WhatsApp with the words already filled in. You only tap Send.'),
-                          const SizedBox(height: 16),
+                            'Tap a text. It opens in WhatsApp with the words already filled in. You only tap Send.',
+                            style: BridgeLook.body,
+                          ),
+                          const SizedBox(height: 22),
+                          const BridgePhoto(),
+                          const SizedBox(height: 22),
                           TextField(
                             controller: _whatsappNumber,
                             keyboardType: TextInputType.phone,
+                            style: const TextStyle(color: BridgeLook.ink),
                             decoration: const InputDecoration(
                               labelText: 'Your WhatsApp number',
                               hintText: '+254712345678',
                               helperText:
                                   'Saved on this phone. Each text opens in this chat.',
                               helperMaxLines: 2,
-                              prefixIcon: Icon(Icons.chat_rounded),
+                              prefixIcon: Icon(Icons.chat_bubble_outline_rounded,
+                                  color: BridgeLook.muted),
                             ),
                             onChanged: (value) {
                               _rememberNumber(value);
                             },
                           ),
-                          const SizedBox(height: 20),
-                          if (_needsPermission) ...[
-                            const Text(
-                                'Allow SMS access so the texts can be listed here. They stay on this phone.'),
-                            const SizedBox(height: 16),
-                            FilledButton(
-                              onPressed: _allow,
-                              child: const Text('Allow SMS access'),
+                          const SizedBox(height: 28),
+                          const Text('TEXTS', style: BridgeLook.section),
+                          const SizedBox(height: 12),
+                          if (_needsPermission)
+                            _panel(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Texts stay on this phone.',
+                                      style: TextStyle(
+                                          fontFamily: 'Instrument Serif',
+                                          fontSize: 28,
+                                          height: 1.1,
+                                          color: BridgeLook.ink)),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Allow SMS access so the texts can be listed here. They stay on this phone.',
+                                    style: BridgeLook.body,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  FilledButton(
+                                    onPressed: _allow,
+                                    child: const Text('Allow SMS access'),
+                                  ),
+                                  TextButton(
+                                    onPressed: _openSettings,
+                                    child: const Text('Open settings'),
+                                  ),
+                                ],
+                              ),
                             ),
-                            TextButton(
-                              onPressed: _openSettings,
-                              child: const Text('Open settings'),
-                            ),
-                          ],
                           if (_error != null) ...[
-                            Text(_error!),
+                            Text(_error!, style: BridgeLook.body),
                             const SizedBox(height: 12),
                           ],
                           if (!_needsPermission &&
                               _error == null &&
                               _messages.isEmpty)
-                            const Text('No text messages were found on this phone.'),
+                            _panel(
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('No texts on this phone.',
+                                      style: TextStyle(
+                                          fontFamily: 'Instrument Serif',
+                                          fontSize: 28,
+                                          height: 1.1,
+                                          color: BridgeLook.ink)),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'When a message is stored on this phone, it will show up here.',
+                                    style: BridgeLook.body,
+                                  ),
+                                ],
+                              ),
+                            ),
                           if (_messages.length == _limit)
                             const Padding(
                               padding: EdgeInsets.only(bottom: 12),
-                              child: Text('Showing the 200 newest texts.'),
+                              child: Text('Showing the 200 newest texts.',
+                                  style: BridgeLook.body),
                             ),
                           for (final message in _messages) ...[
-                            Card(
-                              clipBehavior: Clip.antiAlias,
-                              child: InkWell(
-                                onTap: _opening ? null : () => _send(message),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
+                            _panel(
+                              onTap: _opening ? null : () => _send(message),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(message.address,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                          '${message.sent ? 'Sent' : 'Received'} · ${_when(message.dateMillis)}'),
-                                      const SizedBox(height: 8),
-                                      Text(message.body),
-                                      const SizedBox(height: 8),
-                                      Text('Open in WhatsApp',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(
-                                                  color: const Color(0xFF087F62))),
+                                      Expanded(
+                                        child: Text(message.address,
+                                            style: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: BridgeLook.ink)),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Container(
+                                        width: 32,
+                                        height: 32,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFF3F0EA),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Icon(
+                                          message.sent
+                                              ? Icons.north_east_rounded
+                                              : Icons.south_west_rounded,
+                                          size: 16,
+                                          color: BridgeLook.ink,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    '${message.sent ? 'Sent' : 'Received'} · ${_when(message.dateMillis)}',
+                                    style: BridgeLook.body,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(message.body,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          height: 1.4,
+                                          color: BridgeLook.ink)),
+                                  const SizedBox(height: 14),
+                                  const Text('Open in WhatsApp',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: BridgeLook.green)),
+                                ],
                               ),
                             ),
                             const SizedBox(height: 12),
@@ -284,6 +341,18 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                       ),
                     ),
             ),
+          ),
+        ),
+      );
+
+  Widget _panel({required Widget child, VoidCallback? onTap}) => Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18),
+          child: Ink(
+            decoration: BridgeLook.cardDecoration,
+            child: Padding(padding: const EdgeInsets.all(18), child: child),
           ),
         ),
       );

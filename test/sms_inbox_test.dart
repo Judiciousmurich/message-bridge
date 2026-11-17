@@ -65,4 +65,21 @@ void main() {
     expect(find.text('Allow SMS access'), findsOneWidget);
     expect(find.text('Rent is due Friday'), findsNothing);
   });
+
+  testWidgets('says when the phone has no texts', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(800, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      channel,
+      (call) async {
+        if (call.method == 'hasPermission') return true;
+        if (call.method == 'list') return <Map<String, Object>>[];
+        return null;
+      },
+    );
+    await tester.pumpWidget(const MaterialApp(home: SmsInboxPage()));
+    await tester.pumpAndSettle();
+    expect(find.text('No texts on this phone.'), findsOneWidget);
+    expect(find.text('Open in WhatsApp'), findsNothing);
+  });
 }

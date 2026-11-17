@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:01 — Restyle the text list
+- Intent: Give Message Bridge the warm editorial layout from the reference, including a photo and a clear empty state.
+- Changed: `lib/bridge_look.dart`, `lib/sms_inbox_page.dart`, `lib/compose_page.dart`, and `lib/main.dart` use the new layout. `assets/images/desk.jpg` is the header photo. `assets/fonts/InstrumentSerif-Regular.ttf` is the headline face, with its OFL license. `pubspec.yaml` registers both. `test/sms_inbox_test.dart` covers the empty list.
+- Behavior: An empty text list says "No texts on this phone." Tapping a text still opens it in the saved WhatsApp chat. The app does not list job roles.
+- Business rules: none. BR-032 and BR-024 still apply.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (5 tests).
+- Commit: `feat(ui): restyle the text list`
+
 ## 2026-11-17 16:51 — Play app signing terms need an admin
 - Intent: Play Console says the signed-in user cannot accept the Play App Signing Terms of Service.
 - Changed: `docs/change-ledger.md` records the block. No application code changed.
