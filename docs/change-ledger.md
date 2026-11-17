@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:06 — Run the app on the connected phone
+- Intent: The user connected the itel A667L and asked to run the project.
+- Changed: Built and installed the current debug app. No source files changed.
+- Behavior: none. The phone is showing the restored text list.
+- Business rules: none. BR-032 and BR-024 still apply.
+- Verification: `flutter build apk --debug --target-platform android-arm` built `app-debug.apk`. `adb install -r` reported Success. `am start` opened `com.actserv.message_bridge/.MainActivity`, and that activity is resumed.
+- Commit: `chore(android): run the app on the connected phone`
+
 ## 2026-11-17 17:02 — Revert the editorial restyle
 - Intent: The careers-page design was applied to the wrong project. Put the text list back.
 - Changed: Removed `lib/bridge_look.dart`, the desk photo, and the Instrument Serif font. Restored `lib/sms_inbox_page.dart`, `lib/compose_page.dart`, `lib/main.dart`, `pubspec.yaml`, and `test/sms_inbox_test.dart`.
