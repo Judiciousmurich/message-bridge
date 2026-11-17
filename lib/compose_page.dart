@@ -42,6 +42,24 @@ Future<String?> openWhatsApp(String message, String rawPhone) async {
   return null;
 }
 
+/// Opens the saved WhatsApp chat with an empty draft.
+Future<String?> openWhatsAppNumber(String rawPhone) async {
+  final digits = whatsAppDigits(rawPhone);
+  if (digits == null) {
+    return 'Use an international number, for example +254712345678.';
+  }
+  try {
+    final opened = await launchUrl(
+      Uri.parse('whatsapp://send?phone=$digits'),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!opened) return 'Could not open WhatsApp. Check that it is installed.';
+  } catch (_) {
+    return 'Could not open WhatsApp. Check that it is installed.';
+  }
+  return null;
+}
+
 class ComposePage extends StatefulWidget {
   const ComposePage({super.key, this.initialMessage = ''});
 

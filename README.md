@@ -19,7 +19,10 @@ flutter run
 
 On Android, grant SMS access when asked. Enter your WhatsApp number once.
 A number starting with 07 or 01 is saved as +254. Spaces are fine.
-WhatsApp must be installed. Tap a text and then tap Send in WhatsApp.
+WhatsApp must be installed. Tap one text and then tap Send in WhatsApp.
+Copy all texts, or open every listed text together in that same chat.
+You still tap Send once. If they do not fit in one draft, they are copied
+so you can paste them.
 
 The list shows the 200 newest received and sent texts. Google Play restricts
 SMS access, so this build is meant for a private install. Some phones only let

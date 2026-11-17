@@ -3,6 +3,27 @@ import 'package:flutter/services.dart';
 
 import 'compose_page.dart';
 
+const whatsAppDraftLimit = 1500;
+
+String formatTextTime(int millis) {
+  if (millis <= 0) return '';
+  final time = DateTime.fromMillisecondsSinceEpoch(millis);
+  final month = '${time.month}'.padLeft(2, '0');
+  final day = '${time.day}'.padLeft(2, '0');
+  final hour = '${time.hour}'.padLeft(2, '0');
+  final minute = '${time.minute}'.padLeft(2, '0');
+  return '$day/$month/${time.year} $hour:$minute';
+}
+
+/// Oldest text first, so a batch reads in order.
+String joinedTexts(List<PhoneText> messages) {
+  final ordered = [...messages]..sort((a, b) => a.dateMillis.compareTo(b.dateMillis));
+  return [
+    for (final message in ordered)
+      '${message.address}\n${message.sent ? 'Sent' : 'Received'} · ${formatTextTime(message.dateMillis)}\n${message.body}',
+  ].join('\n\n');
+}
+
 class PhoneText {
   const PhoneText({
     required this.id,
@@ -168,14 +189,54 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
     setState(() => _opening = false);
   }
 
-  String _when(int millis) {
-    if (millis <= 0) return '';
-    final time = DateTime.fromMillisecondsSinceEpoch(millis);
-    final month = '${time.month}'.padLeft(2, '0');
-    final day = '${time.day}'.padLeft(2, '0');
-    final hour = '${time.hour}'.padLeft(2, '0');
-    final minute = '${time.minute}'.padLeft(2, '0');
-    return '$day/$month/${time.year} $hour:$minute';
+  Future<void> _copyAll() async {
+    if (_messages.isEmpty) {
+      _notice('No texts to copy.');
+      return;
+    }
+    try {
+      await Clipboard.setData(ClipboardData(text: joinedTexts(_messages)));
+      _notice('Copied ${_messages.length} texts.');
+    } catch (_) {
+      _notice('Could not copy these texts.');
+    }
+  }
+
+  Future<void> _sendAll() async {
+    if (_opening || _messages.isEmpty) return;
+    final digits = whatsAppDigits(_whatsappNumber.text);
+    if (digits == null) {
+      _notice(_whatsappNumber.text.trim().isEmpty
+          ? 'Add your WhatsApp number above, then tap the text.'
+          : 'Use the country code, for example +254712345678.');
+      return;
+    }
+    final number = '+$digits';
+    if (_whatsappNumber.text != number) {
+      _whatsappNumber.value = TextEditingValue(
+        text: number,
+        selection: TextSelection.collapsed(offset: number.length),
+      );
+    }
+    final draft = joinedTexts(_messages);
+    setState(() => _opening = true);
+    await _rememberNumber(number);
+    String? notice;
+    if (draft.length <= whatsAppDraftLimit) {
+      notice = await openWhatsApp(draft, number);
+    } else {
+      try {
+        await Clipboard.setData(ClipboardData(text: draft));
+        notice = await openWhatsAppNumber(number);
+        notice ??=
+            'Copied ${_messages.length} texts. Paste them in WhatsApp, then tap Send.';
+      } catch (_) {
+        notice = 'Could not copy these texts.';
+      }
+    }
+    if (!mounted) return;
+    if (notice != null) _notice(notice);
+    setState(() => _opening = false);
   }
 
   @override
@@ -212,7 +273,7 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                                       height: 1.15)),
                           const SizedBox(height: 14),
                           const Text(
-                              'Tap a text. It opens in WhatsApp with the words already filled in. You only tap Send.'),
+                              'Tap one text to open it. Or send every listed text together. You tap Send once in WhatsApp.'),
                           const SizedBox(height: 16),
                           TextField(
                             controller: _whatsappNumber,
@@ -230,6 +291,21 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                             },
                           ),
                           const SizedBox(height: 20),
+                          if (_messages.isNotEmpty) ...[
+                            OutlinedButton.icon(
+                              onPressed: _opening ? null : _copyAll,
+                              icon: const Icon(Icons.copy_rounded),
+                              label: const Text('Copy all texts'),
+                            ),
+                            const SizedBox(height: 10),
+                            FilledButton.icon(
+                              onPressed: _opening ? null : _sendAll,
+                              icon: const Icon(Icons.arrow_outward_rounded),
+                              label: Text(
+                                  'Open all ${_messages.length} in WhatsApp'),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
                           if (_needsPermission) ...[
                             const Text(
                                 'Allow SMS access so the texts can be listed here. They stay on this phone.'),
@@ -272,7 +348,7 @@ class _SmsInboxPageState extends State<SmsInboxPage> {
                                               .titleMedium),
                                       const SizedBox(height: 4),
                                       Text(
-                                          '${message.sent ? 'Sent' : 'Received'} · ${_when(message.dateMillis)}'),
+                                          '${message.sent ? 'Sent' : 'Received'} · ${formatTextTime(message.dateMillis)}'),
                                       const SizedBox(height: 8),
                                       Text(message.body),
                                       const SizedBox(height: 8),

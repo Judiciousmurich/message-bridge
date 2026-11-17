@@ -27,6 +27,19 @@ Kotlin source paths are relative to
   - 2026-11-17 — A saved number with spaces, or a Kenyan mobile starting with
     0, still opens the WhatsApp chat. Ledger: Accept the saved WhatsApp number.
 
+### BR-033 — Listed texts can be copied or opened together
+- Status: Active
+- Type: Behavior
+- Rule: On Android, the user can copy every listed text, or open them together
+  in the saved WhatsApp chat, oldest first. Tapping one text still opens that
+  text alone. If the combined text is too long for one WhatsApp draft, the app
+  copies it and opens the chat so the user can paste, then tap Send. The app
+  does not call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`
+- History:
+  - 2026-11-17 — Added so a list of texts does not need one tap each. Ledger:
+    Copy or open every listed text.
+
 ### BR-024 — iOS cannot read the Messages inbox
 - Status: Active
 - Type: Constraint

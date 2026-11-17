@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:21 — Copy or open every listed text
+- Intent: The user can open one text, and also wants every listed text copied or sent to the saved WhatsApp number without tapping each one.
+- Changed: `lib/sms_inbox_page.dart` adds Copy all texts and Open all in WhatsApp. `lib/compose_page.dart` can open the saved chat with an empty draft when the combined text is too long. `README.md`, `docs/business-rules.md`, and `test/sms_inbox_test.dart` match.
+- Behavior: One tap still opens one text. Copy all copies the list, oldest first. Open all puts that list in the saved WhatsApp chat. If it is longer than one draft, the list is copied and the chat opens so the user can paste, then tap Send.
+- Business rules: BR-033 added.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (8 tests). The new build was not installed on the phone.
+- Commit: `feat(ui): copy or open every listed text`
+
 ## 2026-11-17 17:11 — Accept the saved WhatsApp number
 - Intent: A saved number was rejected on tap unless it was a plus followed by digits with no spaces.
 - Changed: `lib/compose_page.dart` accepts `+254…` and a Kenyan `07` or `01` mobile. `lib/sms_inbox_page.dart` uses that check before opening WhatsApp. `README.md`, `docs/business-rules.md`, and the tests match.
