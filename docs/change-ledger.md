@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-17 17:02 — Revert the editorial restyle
+- Intent: The careers-page design was applied to the wrong project. Put the text list back.
+- Changed: Removed `lib/bridge_look.dart`, the desk photo, and the Instrument Serif font. Restored `lib/sms_inbox_page.dart`, `lib/compose_page.dart`, `lib/main.dart`, `pubspec.yaml`, and `test/sms_inbox_test.dart`.
+- Behavior: The text list looks as it did before the restyle. Tapping a text still opens the saved WhatsApp chat.
+- Business rules: none. BR-032 and BR-024 still apply.
+- Verification: `flutter analyze` reported no issues. `flutter test` passed (4 tests).
+- Commit: `revert(ui): remove the editorial restyle`
+
 ## 2026-11-17 17:01 — Restyle the text list
 - Intent: Give Message Bridge the warm editorial layout from the reference, including a photo and a clear empty state.
 - Changed: `lib/bridge_look.dart`, `lib/sms_inbox_page.dart`, `lib/compose_page.dart`, and `lib/main.dart` use the new layout. `assets/images/desk.jpg` is the header photo. `assets/fonts/InstrumentSerif-Regular.ttf` is the headline face, with its OFL license. `pubspec.yaml` registers both. `test/sms_inbox_test.dart` covers the empty list.
