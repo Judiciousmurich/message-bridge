@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:42 — Where the Ads task is
+- Intent: The user asked where to get the ads for the Play setup.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Message Bridge has no ads. The Ads task is a yes-or-no question on the app dashboard, not on Publishing overview and not under Monetise with Play. Publishing overview says this account cannot edit that page.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): point to the Ads setup task`
+
 ## 2026-11-18 11:39 — Next step for the Play draft
 - Intent: The user asked what to do now that Play Console is signed in.
 - Changed: `docs/change-ledger.md` records the next step. No application code changed.
