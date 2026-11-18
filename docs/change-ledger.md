@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 17:16 — Play declarations accepted
+- Intent: The user reported that all Play setup declarations have been accepted.
+- Changed: `docs/change-ledger.md` records the milestone. No application code changed.
+- Findings: The next step is a signed release Android App Bundle. `android/app/build.gradle` still signs release with debug keys. No `key.properties` or upload keystore is in the repo.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). Release signing was not rebuilt.
+- Commit: `docs(android): record accepted Play declarations`
+
 ## 2026-11-18 12:28 — Finish Play declarations as admin first
 - Intent: The user confirmed they will finish the Play declarations as an admin before release work.
 - Changed: `docs/change-ledger.md` records the plan. No application code changed.
