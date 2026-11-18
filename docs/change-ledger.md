@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:59 — Play rejection is not certain
+- Intent: The user asked whether Play is certain to reject Message Bridge.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Rejection is not certain. The review happens after submission. The risk remains `READ_SMS`, because the app is not the phone's default Messages app.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): say the Play review result is unknown`
+
 ## 2026-11-18 11:57 — Why Play may reject the SMS permission
 - Intent: The user asked why the Play submission can be denied.
 - Changed: `docs/change-ledger.md` records the reason. No application code changed.
