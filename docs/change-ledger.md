@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:52 — What still needs the Play administrator
+- Intent: The user asked whether the account administrator is still needed after the declarations are filled.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: The declarations can be saved by an account that is allowed to edit them. Uploading a release still needs the account owner or an account administrator to accept the Play App Signing terms. A page that says edit permission is required also needs that person to grant access.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note the remaining administrator step`
+
 ## 2026-11-18 11:51 — Declarations do not publish the app
 - Intent: The user asked whether completing the declarations that need attention is enough to deploy.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
