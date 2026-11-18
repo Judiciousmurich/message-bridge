@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:02 — The current app is not the Play-friendly build
+- Intent: The user asked whether the Play-friendly build is the app they already have.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: The installed app requests `READ_SMS` and lists texts. The Play-friendly build does not request that permission. The phone install can stay as it is.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): distinguish the Play build from the phone app`
+
 ## 2026-11-18 12:00 — How a Play build can be accepted
 - Intent: The user asked how to get Play to accept Message Bridge.
 - Changed: `docs/change-ledger.md` records the two honest paths. No application code changed.
