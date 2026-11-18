@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:00 — How a Play build can be accepted
+- Intent: The user asked how to get Play to accept Message Bridge.
+- Changed: `docs/change-ledger.md` records the two honest paths. No application code changed.
+- Findings: A Play build that does not request `READ_SMS` matches the permission rules. A build that reads SMS has to be the phone's real default Messages app. The private install can keep the current text list.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): record the Play acceptance paths`
+
 ## 2026-11-18 11:59 — Play rejection is not certain
 - Intent: The user asked whether Play is certain to reject Message Bridge.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
