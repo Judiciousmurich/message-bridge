@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:21 — Some Play apps do use SMS permissions
+- Intent: The user noted that some apps on Play Store accept or use SMS-related access.
+- Changed: `docs/change-ledger.md` records the nuance. No application code changed.
+- Findings: Play allows SMS access for allowed categories such as the default SMS app, backup, caller ID, and OTP helpers. Message Bridge is a bridge to WhatsApp, which is a harder case to justify in the declaration.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): explain SMS apps on Play`
+
 ## 2026-11-18 12:13 — iOS is not deployed from Google Play
 - Intent: The user asked whether the iOS app can be deployed from Google Play Console.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
