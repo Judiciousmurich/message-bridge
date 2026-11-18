@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:25 — Firebase is not the SMS inbox today
+- Intent: The user asked whether the app can read messages from Firebase.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: The project has no Firebase. Phone texts are read on the device only. Firebase could hold messages only if another part of the system puts them there first.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). Searched the repo for Firebase usage.
+- Commit: `docs(agent): explain Firebase versus phone SMS`
+
 ## 2026-11-18 12:21 — Some Play apps do use SMS permissions
 - Intent: The user noted that some apps on Play Store accept or use SMS-related access.
 - Changed: `docs/change-ledger.md` records the nuance. No application code changed.
