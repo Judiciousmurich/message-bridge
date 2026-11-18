@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 10:22 — Play Console home still needs sign-in
+- Intent: The user sent the Play Console home link.
+- Changed: `docs/change-ledger.md` records the result. No application code changed.
+- Findings: The home link redirects to Google sign-in. This session is not signed into the Play account, so the app list is not visible from here.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). The home URL redirected to Google sign-in.
+- Commit: `docs(android): note the Play home sign-in`
+
 ## 2026-11-17 17:54 — Play dashboard needs a Google sign-in
 - Intent: The user asked to deploy Message Bridge from the Play Console app dashboard.
 - Changed: `docs/change-ledger.md` records the block. No application code changed.
