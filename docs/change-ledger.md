@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:35 — Play Console is signed in
+- Intent: The user signed in and the Play Console home could be opened.
+- Changed: `docs/change-ledger.md` records the dashboard. No application code changed.
+- Findings: Message Bridge is visible and still a draft. Production is locked until the initial setup tasks are done. None of the 12 store-setup tasks are complete. Release builds still use the debug signing config.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). The signed-in dashboard was opened and the setup task list was expanded.
+- Commit: `docs(android): note the signed-in Play dashboard`
+
 ## 2026-11-18 10:22 — Play Console home still needs sign-in
 - Intent: The user sent the Play Console home link.
 - Changed: `docs/change-ledger.md` records the result. No application code changed.
