@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:57 — Why Play may reject the SMS permission
+- Intent: The user asked why the Play submission can be denied.
+- Changed: `docs/change-ledger.md` records the reason. No application code changed.
+- Findings: The app requests `READ_SMS` so it can list texts and open them in WhatsApp. Play limits that permission to a default SMS app or a narrow approved use. Message Bridge is not the phone's default Messages app.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). Checked `AndroidManifest.xml` for `READ_SMS`.
+- Commit: `docs(android): explain the SMS review risk`
+
 ## 2026-11-18 11:55 — Access does not upload the release
 - Intent: The user asked whether granted Play access means the app can be built and deployed.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
