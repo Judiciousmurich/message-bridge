@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 17:19 — Play content rating category
+- Intent: The user asked how to fill the Play content ratings category step.
+- Changed: `docs/change-ledger.md` records the category choice. No application code changed.
+- Findings: Message Bridge is a utility tool, not a game or a social network. The category is All other app types. The developer contact email and IARC terms agreement are required on that form.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): note the content rating category`
+
 ## 2026-11-18 17:16 — Play declarations accepted
 - Intent: The user reported that all Play setup declarations have been accepted.
 - Changed: `docs/change-ledger.md` records the milestone. No application code changed.
