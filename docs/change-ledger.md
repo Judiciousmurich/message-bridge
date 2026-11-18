@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:55 — Access does not upload the release
+- Intent: The user asked whether granted Play access means the app can be built and deployed.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Edit access allows the declarations to be saved. A release still needs those declarations saved, the Play App Signing terms accepted, and a signed Android App Bundle. The current release build uses the debug signing config.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): separate Play access from the release upload`
+
 ## 2026-11-18 11:52 — What still needs the Play administrator
 - Intent: The user asked whether the account administrator is still needed after the declarations are filled.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
