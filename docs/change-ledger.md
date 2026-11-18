@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:28 — Finish Play declarations as admin first
+- Intent: The user confirmed they will finish the Play declarations as an admin before release work.
+- Changed: `docs/change-ledger.md` records the plan. No application code changed.
+- Findings: The next step is saving all setup declarations with edit access, then Play App Signing terms, then a signed release upload.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): confirm admin declarations first`
+
 ## 2026-11-18 12:25 — Firebase is not the SMS inbox today
 - Intent: The user asked whether the app can read messages from Firebase.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
