@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:51 — Declarations do not publish the app
+- Intent: The user asked whether completing the declarations that need attention is enough to deploy.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: The declarations are required before a release. A release still needs a signed Android App Bundle, and Play can reject the app because it reads SMS. The current release build uses the debug signing config.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): explain the remaining Play release steps`
+
 ## 2026-11-18 11:48 — Play setup cannot be edited
 - Intent: The user asked for the Play setup details to be filled in and for the app to be deployed.
 - Changed: `docs/change-ledger.md` records the block. No application code changed.
