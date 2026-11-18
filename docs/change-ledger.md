@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:39 — Next step for the Play draft
+- Intent: The user asked what to do now that Play Console is signed in.
+- Changed: `docs/change-ledger.md` records the next step. No application code changed.
+- Findings: Finish the 12 setup tasks before a production release. The app reads SMS, which Play restricts, so a public listing can still be rejected. The phone already has a private install.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): record the next Play step`
+
 ## 2026-11-18 11:35 — Play Console is signed in
 - Intent: The user signed in and the Play Console home could be opened.
 - Changed: `docs/change-ledger.md` records the dashboard. No application code changed.
