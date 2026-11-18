@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 11:48 — Play setup cannot be edited
+- Intent: The user asked for the Play setup details to be filled in and for the app to be deployed.
+- Changed: `docs/change-ledger.md` records the block. No application code changed.
+- Findings: The Ads page opens, and both answers and Save are disabled. Play says this account needs permission to edit the page. The setup cannot be saved or published from this sign-in.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). The Ads declaration page was opened while signed in.
+- Commit: `docs(android): note the Play edit permission block`
+
 ## 2026-11-18 11:42 — Where the Ads task is
 - Intent: The user asked where to get the ads for the Play setup.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
