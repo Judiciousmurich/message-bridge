@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-18 12:13 — iOS is not deployed from Google Play
+- Intent: The user asked whether the iOS app can be deployed from Google Play Console.
+- Changed: `docs/change-ledger.md` records the answer. No application code changed.
+- Findings: Google Play is Android only. iOS uses App Store Connect and an Apple Developer account. The iOS build is paste or type, then open WhatsApp. It cannot list the Messages inbox.
+- Behavior: none.
+- Business rules: none. BR-024 and BR-032 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(ios): note iOS is not on Google Play`
+
 ## 2026-11-18 12:02 — The current app is not the Play-friendly build
 - Intent: The user asked whether the Play-friendly build is the app they already have.
 - Changed: `docs/change-ledger.md` records the answer. No application code changed.
