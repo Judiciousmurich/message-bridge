@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-19 16:55 — Seven App content declarations remain
+- Intent: The user asked whether the Play declarations were finished.
+- Changed: `docs/change-ledger.md` records the current App content list. No application code changed.
+- Findings: App content still shows Need attention (7): privacy policy, content ratings, data safety, advertising ID, financial features, health apps, and trader status. None were saved in the prior browser session.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only). Read the signed-in App content overview.
+- Commit: `docs(android): list remaining App content declarations`
+
 ## 2026-11-18 17:19 — Play content rating category
 - Intent: The user asked how to fill the Play content ratings category step.
 - Changed: `docs/change-ledger.md` records the category choice. No application code changed.
