@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-20 17:10 — Play publish prep (internal testing)
+- Intent: User asked to publish Message Bridge on Google Play.
+- Changed: Play Console Store settings — category **Tools**, contact email saved. Internal testing release draft opened (prepare URL on track 4701158297655745782). `docs/change-ledger.md` updated. No application code changed.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter build appbundle --release` succeeded earlier this session; artifact `build/app/outputs/bundle/release/app-release.aab` (~19MB). `flutter analyze` not re-run this turn (Console/docs only). Release still uses `signingConfigs.debug` in `android/app/build.gradle`.
+- Findings: App content complete; Publishing overview lists pending policy/listing submissions (Send app for review disabled until release exists). AAB upload must be done manually (browser automation cannot attach local files). Three local commits not on `origin/main` (`ef01553`, `6ff4d11`, `1927758`); push blocked without user approval on protected branch.
+- Commit: `docs(android): record Play publish prep`
+
 ## 2026-11-20 16:50 — Complete Play App content declarations
 - Intent: User asked to finish remaining Play declarations.
 - Changed: `docs/terms-of-service.html` added (commit `6ff4d11`). Play Console: trader status saved; data safety saved.
