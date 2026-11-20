@@ -28,6 +28,13 @@ SMS access, so this build is meant for a private install. Some phones only let
 the default Messages app read texts; if the list stays empty after you allow
 access, the phone blocked the read.
 
+## Privacy policy
+
+The policy text lives in [`docs/privacy-policy.md`](docs/privacy-policy.md) and
+[`docs/privacy-policy.html`](docs/privacy-policy.html). For Play Console, host the
+HTML on a public HTTPS URL (for example GitHub Pages from the `docs/` folder on
+`main`) and paste that URL into the privacy policy declaration.
+
 ## Check
 
 ```sh

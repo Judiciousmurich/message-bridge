@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-20 15:33 — Add Message Bridge privacy policy
+- Intent: The user asked for a privacy policy for Play Console.
+- Changed: Added `docs/privacy-policy.md` and `docs/privacy-policy.html`. `README.md` explains how to host the URL for Play.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (docs only).
+- Commit: `docs(android): add the privacy policy`
+
 ## 2026-11-19 16:55 — Seven App content declarations remain
 - Intent: The user asked whether the Play declarations were finished.
 - Changed: `docs/change-ledger.md` records the current App content list. No application code changed.
