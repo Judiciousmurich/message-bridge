@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-20 16:25 — Play App content declarations (browser)
+- Intent: The user asked to finish filling Play App content declarations.
+- Changed: `docs/change-ledger.md` records Console progress. No application code changed.
+- Behavior: none (Play Console configuration only).
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (Play Console UI). Signed-in session: App content **Need attention** went from 7 → **2** (Data safety, App-level trader status). Completed/saved in UI: content ratings (IARC, All other app types), advertising ID (No), financial features (none), health apps (none). Privacy policy and ads were already actioned. Trader status: org trader Yes, Terms URL field filled with jsDelivr privacy-policy URL — confirm Save stuck. Data safety: wizard opened; step 2 partially filled (collect Yes, delete-data URL = same jsDelivr privacy policy); steps 3–4 (data types + usage) still required before final Save.
+- Commit: `docs(android): record Play declaration progress`
+
 ## 2026-11-20 16:06 — Push privacy policy and docs to GitHub
 - Intent: The user asked to push to GitHub so the privacy policy URL can be used in Play Console.
 - Changed: `main` on `https://github.com/Judiciousmurich/message-bridge.git` moved from `ab6e4b4` to `7a129e1`.
