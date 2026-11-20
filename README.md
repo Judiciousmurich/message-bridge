@@ -35,6 +35,20 @@ The policy text lives in [`docs/privacy-policy.md`](docs/privacy-policy.md) and
 HTML on a public HTTPS URL (for example GitHub Pages from the `docs/` folder on
 `main`) and paste that URL into the privacy policy declaration.
 
+## Play Store (Android)
+
+1. Build: `flutter build appbundle --release` (needs free disk space).
+2. Optional upload key: copy `android/key.properties.example` to
+   `android/key.properties`, create `android/app/upload-keystore.jks`, then
+   rebuild. Without `key.properties`, release uses the debug key (Play may
+   reject or require Play App Signing enrollment).
+3. Play Console → **Test and release** → **Internal testing** → upload
+   `build/app/outputs/bundle/release/app-release.aab`, save, **Next**, roll out.
+4. **Testers** tab → add emails, then **Publishing overview** → **Send app for
+   review** for pending store/policy changes.
+5. **Production** is separate: create a production release after internal
+   testing passes and Google approves the app (SMS apps are policy-sensitive).
+
 ## Check
 
 ```sh

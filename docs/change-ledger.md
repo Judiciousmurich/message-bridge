@@ -4,6 +4,23 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-21 02:45 — Continue Play deploy (sign-in required)
+- Intent: User asked to continue Play Store deployment.
+- Changed: `scripts/open-release-bundle.sh` added. Committed pending signing/docs from prior turn. Play Console browser session signed out; automation cannot complete password/2FA or AAB file picker.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter analyze` — no issues (ran in 6.6s). AAB present at `build/app/outputs/bundle/release/app-release.aab` (~19MB).
+- Commit: `feat(android): optional Play upload signing and deploy docs`
+
+## 2026-11-20 17:20 — Play deploy attempt (internal testing)
+- Intent: User asked to deploy Message Bridge on the Play Store.
+- Changed: `android/app/build.gradle` uses optional `key.properties` release signing; added `android/key.properties.example`. `README.md` Play Store steps. Play Console internal draft — release name `1.0.0-internal`, release notes filled; Upload clicked (AAB path copied to clipboard). No bundle attached by automation.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter analyze` — no issues (ran in 8.6s).
+- Note: Public Production not rolled out; deploy blocked on manual AAB upload and rollout. Disk ~1.6GB free may block rebuilds.
+- Commit: (same commit as 2026-11-21 entry)
+
 ## 2026-11-20 17:10 — Play publish prep (internal testing)
 - Intent: User asked to publish Message Bridge on Google Play.
 - Changed: Play Console Store settings — category **Tools**, contact email saved. Internal testing release draft opened (prepare URL on track 4701158297655745782). `docs/change-ledger.md` updated. No application code changed.
