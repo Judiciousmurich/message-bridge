@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-20 16:06 — Push privacy policy and docs to GitHub
+- Intent: The user asked to push to GitHub so the privacy policy URL can be used in Play Console.
+- Changed: `main` on `https://github.com/Judiciousmurich/message-bridge.git` moved from `ab6e4b4` to `7a129e1`.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `git push origin main` completed, `ab6e4b4..7a129e1`.
+- Commit: `docs(agent): record the GitHub push for the privacy policy`
+
 ## 2026-11-20 15:33 — Add Message Bridge privacy policy
 - Intent: The user asked for a privacy policy for Play Console.
 - Changed: Added `docs/privacy-policy.md` and `docs/privacy-policy.html`. `README.md` explains how to host the URL for Play.
