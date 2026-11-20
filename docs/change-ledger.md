@@ -4,6 +4,15 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-20 16:50 — Complete Play App content declarations
+- Intent: User asked to finish remaining Play declarations.
+- Changed: `docs/terms-of-service.html` added (commit `6ff4d11`). Play Console: trader status saved; data safety saved.
+- Behavior: none (store configuration only).
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (Play Console UI). App content overview shows Need attention empty (“You've caught up with everything”); all declarations on Actioned tab.
+- Note: Data safety preview states no collection/sharing (on-device processing only). Trader ToS URL currently privacy-policy jsDelivr link; push `terms-of-service.html` to GitHub and update trader URL to dedicated ToS when convenient.
+- Commit: `docs(android): finish Play declarations ledger`
+
 ## 2026-11-20 16:25 — Play App content declarations (browser)
 - Intent: The user asked to finish filling Play App content declarations.
 - Changed: `docs/change-ledger.md` records Console progress. No application code changed.
