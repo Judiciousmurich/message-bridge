@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-21 22:30 — Play go: signed in, AAB rebuilt
+- Intent: User said go to put Message Bridge on Play Store.
+- Changed: Local upload keystore already present (`android/app/upload-keystore.jks`, gitignored). `docs/change-ledger.md` updated. Play Console signed in; internal testing **Prepare release** page open. Browser fill/upload blocked by approval UI; user completes file picker manually.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter build appbundle --release` succeeded (~20.2MB, upload-key signed). `scripts/open-release-bundle.sh` ran (Finder + clipboard path).
+- Commit: `docs(android): Play go signed AAB and manual upload`
+
 ## 2026-11-21 02:45 — Continue Play deploy (sign-in required)
 - Intent: User asked to continue Play Store deployment.
 - Changed: `scripts/open-release-bundle.sh` added. Committed pending signing/docs from prior turn. Play Console browser session signed out; automation cannot complete password/2FA or AAB file picker.
