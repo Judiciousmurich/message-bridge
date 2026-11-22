@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-22 12:30 — Raise minSdk to 24 for Play protection
+- Intent: Play rejected upload (automatic protection requires minSdk 24+).
+- Changed: `android/app/build.gradle` `minSdk` 23 → 24. Rebuilt AAB; copied to Desktop `Message-Bridge-upload.aab`.
+- Behavior: Drops Android 6.0 (API 23); minimum is Android 7.0 (API 24).
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter analyze` no issues; `flutter build appbundle --release` succeeded (~20.2MB).
+- Commit: `fix(android): minSdk 24 for Play automatic protection`
+
 ## 2026-11-21 22:30 — Play go: signed in, AAB rebuilt
 - Intent: User said go to put Message Bridge on Play Store.
 - Changed: Local upload keystore already present (`android/app/upload-keystore.jks`, gitignored). `docs/change-ledger.md` updated. Play Console signed in; internal testing **Prepare release** page open. Browser fill/upload blocked by approval UI; user completes file picker manually.
