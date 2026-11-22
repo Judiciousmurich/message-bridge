@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-22 12:50 — Bump versionCode 2 for Play upload
+- Intent: Play rejected upload (version code 1 already used).
+- Changed: `pubspec.yaml` `1.0.0+1` → `1.0.0+2`. Rebuilt AAB; refreshed Desktop `Message-Bridge-upload.aab`.
+- Behavior: none (version metadata only).
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter build appbundle --release` succeeded (~20.2MB); `flutter test` passed.
+- Commit: `fix(android): bump versionCode to 2 for Play`
+
 ## 2026-11-22 12:30 — Raise minSdk to 24 for Play protection
 - Intent: Play rejected upload (automatic protection requires minSdk 24+).
 - Changed: `android/app/build.gradle` `minSdk` 23 → 24. Rebuilt AAB; copied to Desktop `Message-Bridge-upload.aab`.
