@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-22 13:15 — Target API 36 for Play requirement
+- Intent: Play blocked release (must target API 36; prior bundle was 34).
+- Changed: `compileSdk`/`targetSdk` 36; AGP 8.5.2, Gradle 8.7, Java/Kotlin 17; `pubspec` version `1.0.0+3`. Refreshed Desktop `Message-Bridge-upload.aab`.
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: `flutter build appbundle --release` succeeded (~20.2MB).
+- Commit: `fix(android): target API 36 for Play Console`
+
 ## 2026-11-22 12:50 — Bump versionCode 2 for Play upload
 - Intent: Play rejected upload (version code 1 already used).
 - Changed: `pubspec.yaml` `1.0.0+1` → `1.0.0+2`. Rebuilt AAB; refreshed Desktop `Message-Bridge-upload.aab`.
