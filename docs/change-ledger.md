@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-22 14:00 — Play production listing assets and copy
+- Intent: User asked to finish public Play Store setup.
+- Changed: Added `docs/play-store-assets/` (icon, feature graphic, 2 screenshots) and `docs/play-store-listing.md` with short/full description. Copied assets to Desktop `Message-Bridge-Play-assets`. Play Console store listing fill not automated (graphics upload + publish buttons).
+- Behavior: none.
+- Business rules: none. BR-032 and BR-033 still apply.
+- Verification: not run (assets/docs only).
+- Commit: `docs(android): Play listing assets and production steps`
+
 ## 2026-11-22 13:15 — Target API 36 for Play requirement
 - Intent: Play blocked release (must target API 36; prior bundle was 34).
 - Changed: `compileSdk`/`targetSdk` 36; AGP 8.5.2, Gradle 8.7, Java/Kotlin 17; `pubspec` version `1.0.0+3`. Refreshed Desktop `Message-Bridge-upload.aab`.
