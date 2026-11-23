@@ -23,6 +23,8 @@ On Android, after you allow SMS access, the app shows your newest messages store
 Message Bridge does not send SMS for you and is not a replacement for your Messages or WhatsApp apps. WhatsApp must be installed on Android.
 
 Privacy policy: https://cdn.jsdelivr.net/gh/Judiciousmurich/message-bridge@main/docs/privacy-policy.html
+
+Data deletion: https://cdn.jsdelivr.net/gh/Judiciousmurich/message-bridge@main/docs/data-deletion.html
 ```
 
 ## Graphics (upload from repo or Desktop)

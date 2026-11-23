@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-23 12:42 — Play pre-review blockers (URLs, telephony, bundle 4)
+- Intent: User hit Play pre-check errors: telephony hardware, privacy 404, data-deletion 404.
+- Changed: `AndroidManifest.xml` `telephony` `required=false`; `docs/data-deletion.html`; privacy policy link; `pubspec` `1.0.0+4`; `docs/play-store-listing.md` deletion URL. Built AAB to Desktop.
+- Behavior: None in-app. Tablets/non-telephony devices may install; policy pages intended for jsDelivr after GitHub push.
+- Business rules: none.
+- Verification: `flutter analyze` passed; `flutter test` passed; `flutter build appbundle --release` succeeded (~20.2MB). GitHub `main` was 10 commits ahead of `origin` (404 root cause for jsDelivr).
+- Commit: `fix(android): Play telephony optional and policy URLs`
+
 ## 2026-11-22 14:00 — Play production listing assets and copy
 - Intent: User asked to finish public Play Store setup.
 - Changed: Added `docs/play-store-assets/` (icon, feature graphic, 2 screenshots) and `docs/play-store-listing.md` with short/full description. Copied assets to Desktop `Message-Bridge-Play-assets`. Play Console store listing fill not automated (graphics upload + publish buttons).
