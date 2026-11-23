@@ -56,6 +56,4 @@ flutter analyze
 flutter test
 ```
 
-Build Android with `flutter build apk`. iOS builds require Xcode and signing.
-The Android identifier is `com.actserv.message_bridge`. The partial Expo
-starter is preserved in `.previous-expo/` and is unused by this app.
+
