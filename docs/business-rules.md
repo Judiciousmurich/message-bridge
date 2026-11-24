@@ -11,6 +11,20 @@ Kotlin source paths are relative to
 
 ## Active rules
 
+### BR-035 — Treasurer pastes M-Pesa SMS for group totals (Play)
+- Status: Active
+- Type: Behavior
+- Rule: The treasurer copies a Safaricom M-Pesa "money received" SMS and pastes
+  it in the app. The app parses payer first name, last name, amount, and an
+  optional phone number from that pasted text only—never from the SMS inbox.
+  Parsed lines accumulate on device with a running total. The treasurer can copy
+  a group update or open WhatsApp with a prefilled thank-you or group summary.
+  The user picks the chat and taps Send in WhatsApp. No SMS read permission.
+- Source: `lib/treasurer_page.dart`, `lib/mpesa_parser.dart`, `README.md`
+- History:
+  - 2026-11-24 — Added for WhatsApp group fundraisers under Play policy.
+    Ledger: M-Pesa treasurer paste flow.
+
 ### BR-034 — Android uses paste/type only (Google Play)
 - Status: Active
 - Type: Behavior

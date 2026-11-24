@@ -26,7 +26,7 @@ send your messages.
 
 | Data | Purpose | Leaves the device? |
 |------|---------|--------------------|
-| Text you paste or type | Prefill a draft to open in WhatsApp | Only when **you** send it in WhatsApp or use copy |
+| Text you paste or type (including M-Pesa SMS you copy) | Parse amounts and names on device; prefill WhatsApp drafts | Only when **you** send it in WhatsApp or use copy |
 | WhatsApp number you enter | Open the correct WhatsApp chat | Only when passed to WhatsApp by your action |
 | App preferences (e.g. saved number) | Remember your settings on this phone | No |
 

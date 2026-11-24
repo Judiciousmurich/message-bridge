@@ -5,22 +5,23 @@ Use **Grow users → Store presence → Main store listing** (English en-US).
 ## Short description (max 80 chars)
 
 ```
-Copy a text, open WhatsApp with it prefilled. No SMS read, no cloud upload.
+Treasurer: paste M-Pesa SMS, track group totals, share updates on WhatsApp.
 ```
 
 ## Full description (max 4000 chars)
 
 ```
-Message Bridge helps you move text into WhatsApp Messenger quickly.
+Message Bridge helps WhatsApp group treasurers track M-Pesa contributions.
 
-Copy a message from your Messages app (or type it), save your WhatsApp number once, and tap Continue in WhatsApp. WhatsApp opens with your text ready—you tap Send.
+Copy each M-Pesa “received” SMS from your Messages app and paste it in the app. We extract the payer’s name and amount, keep a running total, and draft text for your group or a thank-you message. You choose the WhatsApp chat and tap Send.
 
-• Does not read your SMS inbox — no sensitive SMS permission
+• Paste M-Pesa SMS only — we do not read your SMS inbox (no SMS permission)
+• First name, surname, amount, optional phone from the pasted text
+• Running total and copyable group update
 • Opens WhatsApp with your message prefilled
-• No ads, no account login, no Twilio
-• Same paste/type flow on Android and iPhone
+• No ads, no account, no cloud upload, no Twilio
 
-Message Bridge does not send SMS for you and is not a replacement for your Messages or WhatsApp apps. WhatsApp must be installed on Android.
+You run the fundraiser; the app does not move money or post to WhatsApp for you automatically.
 
 Privacy policy: https://cdn.jsdelivr.net/gh/Judiciousmurich/message-bridge@main/docs/privacy-policy.html
 
@@ -39,6 +40,6 @@ Desktop copies: folder `Message-Bridge-Play-assets` (if created) or files in `do
 
 ## After listing is saved
 
-1. Upload production bundle **5 (1.0.0)** or higher (no `READ_SMS`).
+1. Upload production bundle **6 (1.0.0)** or higher (treasurer + no `READ_SMS`).
 2. **App content** → withdraw SMS/call-log declaration if still present.
 3. **Publishing overview** → **Send app for review**

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'compose_page.dart';
+import 'treasurer_page.dart';
 
 export 'compose_page.dart';
+export 'mpesa_parser.dart';
+export 'treasurer_page.dart';
 
 void main() => runApp(const MessageBridge());
 
@@ -23,6 +25,6 @@ class MessageBridge extends StatelessWidget {
             fillColor: Colors.white,
           ),
         ),
-        home: const ComposePage(),
+        home: const TreasurerPage(),
       );
 }

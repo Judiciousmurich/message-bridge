@@ -1,12 +1,16 @@
 # Message Bridge
 
-Message Bridge helps you open a text in WhatsApp Messenger. Copy a message
-from your Messages app (or type one), save your WhatsApp number once, tap
-Continue in WhatsApp, then tap Send in WhatsApp. The app does not upload your
-text and does not use Twilio.
+Message Bridge helps a **WhatsApp group treasurer** track M-Pesa contributions
+without reading the SMS inbox (Google Play–friendly).
 
-On Android and iPhone the flow is the same: the app does **not** read your SMS
-inbox. That keeps the Google Play build within Play policy (no `READ_SMS`).
+1. Copy each **M-Pesa received** SMS from your Messages app.
+2. Tap **Paste M-Pesa SMS**—the app extracts first name, surname, amount, and
+   phone when present.
+3. See the **running total**, copy a group update, or open **WhatsApp** with a
+   prefilled thank-you or summary (you tap Send).
+
+There is also a **Compose** screen to paste any text and continue in WhatsApp.
+No `READ_SMS`, no uploads, no Twilio.
 
 ## Run
 

@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-24 11:05 — M-Pesa treasurer paste flow (Play-safe)
+- Intent: User asked for group treasurer / M-Pesa totals in a form Google Play accepts.
+- Changed: `lib/treasurer_page.dart`, `lib/mpesa_parser.dart`, `lib/whatsapp.dart`; home → treasurer; `pubspec` `1.0.0+6`; README, listing, BR-035; `test/mpesa_parser_test.dart`.
+- Behavior: Paste M-Pesa SMS → name/amount list + total → copy or WhatsApp share; still no inbox read.
+- Business rules: BR-035 added.
+- Verification: `flutter analyze` passed; `flutter test` passed (7 tests).
+- Commit: `feat(ui): M-Pesa treasurer paste for Play`
+
 ## 2026-11-24 10:30 — Remove SMS read for Google Play
 - Intent: User asked to drop features Google would reject (`READ_SMS` inbox list).
 - Changed: Removed `lib/sms_inbox_page.dart`, SMS `MethodChannel`, and `READ_SMS` from manifest; Android uses `ComposePage` only; `pubspec` `1.0.0+5`; privacy/data-deletion/listing/README/AGENTS; deleted `test/sms_inbox_test.dart`.
