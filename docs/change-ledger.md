@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-24 11:35 — Treasurer Play extras (share, save, manual)
+- Intent: User asked to do everything Google Play allows for the treasurer idea.
+- Changed: `shared_preferences` store; Android `ACTION_SEND` text share; manual payment; duplicate skip; clear fundraiser; `1.0.0+7`; BR-035 updated; README.
+- Behavior: Share M-Pesa SMS into app; payments persist on device; still no READ_SMS.
+- Business rules: BR-035 updated.
+- Verification: `flutter analyze` passed; `flutter test` passed (8 tests). `flutter build apk --debug` failed (Gradle network download).
+- Commit: `feat(treasurer): share, persist, manual entry for Play`
+
 ## 2026-11-24 11:05 — M-Pesa treasurer paste flow (Play-safe)
 - Intent: User asked for group treasurer / M-Pesa totals in a form Google Play accepts.
 - Changed: `lib/treasurer_page.dart`, `lib/mpesa_parser.dart`, `lib/whatsapp.dart`; home → treasurer; `pubspec` `1.0.0+6`; README, listing, BR-035; `test/mpesa_parser_test.dart`.

@@ -40,6 +40,6 @@ Desktop copies: folder `Message-Bridge-Play-assets` (if created) or files in `do
 
 ## After listing is saved
 
-1. Upload production bundle **6 (1.0.0)** or higher (treasurer + no `READ_SMS`).
+1. Upload production bundle **7 (1.0.0)** or higher (treasurer + no `READ_SMS`).
 2. **App content** → withdraw SMS/call-log declaration if still present.
 3. **Publishing overview** → **Send app for review**

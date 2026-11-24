@@ -3,11 +3,11 @@
 Message Bridge helps a **WhatsApp group treasurer** track M-Pesa contributions
 without reading the SMS inbox (Google Play–friendly).
 
-1. Copy each **M-Pesa received** SMS from your Messages app.
-2. Tap **Paste M-Pesa SMS**—the app extracts first name, surname, amount, and
-   phone when present.
-3. See the **running total**, copy a group update, or open **WhatsApp** with a
-   prefilled thank-you or summary (you tap Send).
+1. In Messages, **Share** the M-Pesa SMS to Message Bridge, or **copy** and tap
+   **Paste M-Pesa SMS**.
+2. Or tap **Add payment manually** if there is no SMS.
+3. Totals are **saved on the phone**. Copy a group update or open **WhatsApp**
+   (you tap Send). Use **Thank in WhatsApp** per payer when a number is known.
 
 There is also a **Compose** screen to paste any text and continue in WhatsApp.
 No `READ_SMS`, no uploads, no Twilio.

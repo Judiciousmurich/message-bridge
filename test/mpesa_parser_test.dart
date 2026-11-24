@@ -30,6 +30,20 @@ New M-Pesa balance is Ksh5,000.00''';
     expect(r.isOk, isFalse);
   });
 
+  test('manual entry and json round-trip', () {
+    final entry = MpesaContribution.manual(
+      firstName: 'mary',
+      lastName: 'k',
+      amountKes: 200,
+      phoneRaw: '0711111111',
+    );
+    expect(entry.firstName, 'Mary');
+    expect(entry.phoneDigits, '254711111111');
+    final back = MpesaContribution.fromJson(entry.toJson());
+    expect(back.amountKes, 200);
+    expect(back.displayName, entry.displayName);
+  });
+
   test('group update lists entries and total', () {
     final entries = [
       const MpesaContribution(

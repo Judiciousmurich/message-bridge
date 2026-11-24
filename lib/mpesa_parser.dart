@@ -20,6 +20,46 @@ class MpesaContribution {
   String get displayName => '$firstName $lastName'.trim();
 
   String formatAmount() => formatKes(amountKes);
+
+  Map<String, dynamic> toJson() => {
+        'firstName': firstName,
+        'lastName': lastName,
+        'amountKes': amountKes,
+        'phoneRaw': phoneRaw,
+        'phoneDigits': phoneDigits,
+        'rawSms': rawSms,
+      };
+
+  factory MpesaContribution.fromJson(Map<String, dynamic> json) {
+    return MpesaContribution(
+      firstName: json['firstName'] as String? ?? '',
+      lastName: json['lastName'] as String? ?? '',
+      amountKes: (json['amountKes'] as num?)?.toDouble() ?? 0,
+      phoneRaw: json['phoneRaw'] as String?,
+      phoneDigits: json['phoneDigits'] as String?,
+      rawSms: json['rawSms'] as String? ?? '',
+    );
+  }
+
+  factory MpesaContribution.manual({
+    required String firstName,
+    required String lastName,
+    required double amountKes,
+    String? phoneRaw,
+  }) {
+    String? digits;
+    if (phoneRaw != null && phoneRaw.trim().isNotEmpty) {
+      digits = _phoneToWhatsAppDigits(phoneRaw.trim());
+    }
+    return MpesaContribution(
+      firstName: _titleCase(firstName.trim()),
+      lastName: _titleCase(lastName.trim()),
+      amountKes: amountKes,
+      phoneRaw: phoneRaw?.trim().isEmpty == true ? null : phoneRaw?.trim(),
+      phoneDigits: digits,
+      rawSms: '',
+    );
+  }
 }
 
 String formatKes(double amount) {
