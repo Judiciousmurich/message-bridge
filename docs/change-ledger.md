@@ -4,6 +4,14 @@ Append-only record of agent work. Newest entries first. One entry per turn.
 Business rules are tracked separately in
 [`business-rules.md`](business-rules.md).
 
+## 2026-11-24 10:30 — Remove SMS read for Google Play
+- Intent: User asked to drop features Google would reject (`READ_SMS` inbox list).
+- Changed: Removed `lib/sms_inbox_page.dart`, SMS `MethodChannel`, and `READ_SMS` from manifest; Android uses `ComposePage` only; `pubspec` `1.0.0+5`; privacy/data-deletion/listing/README/AGENTS; deleted `test/sms_inbox_test.dart`.
+- Behavior: Android no longer lists SMS; paste/type → WhatsApp only (same as iOS).
+- Business rules: BR-034 added; BR-032 and BR-033 superseded.
+- Verification: `flutter analyze` passed; `flutter test` passed (3 tests). `flutter build appbundle --release` failed (Gradle wrapper download timeout); a long retry had not finished in the agent environment—run locally: `flutter build appbundle --release`.
+- Commit: `feat(android): remove SMS read for Play`
+
 ## 2026-11-23 12:42 — Play pre-review blockers (URLs, telephony, bundle 4)
 - Intent: User hit Play pre-check errors: telephony hardware, privacy 404, data-deletion 404.
 - Changed: `AndroidManifest.xml` `telephony` `required=false`; `docs/data-deletion.html`; privacy policy link; `pubspec` `1.0.0+4`; `docs/play-store-listing.md` deletion URL. Built AAB to Desktop.

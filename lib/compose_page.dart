@@ -138,11 +138,13 @@ class _ComposePageState extends State<ComposePage> {
               child: ListView(
                 padding: const EdgeInsets.all(24),
                 children: [
-                  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS)
+                  if (!kIsWeb &&
+                      (defaultTargetPlatform == TargetPlatform.iOS ||
+                          defaultTargetPlatform == TargetPlatform.android))
                     const Padding(
                       padding: EdgeInsets.only(bottom: 16),
                       child: Text(
-                          'iPhone cannot show your Messages here. Apple does not let an app read that inbox, so those texts cannot be copied into WhatsApp for you. Copy one yourself, then tap Paste.'),
+                          'Copy a text from your Messages app (or anywhere), tap Paste, then continue in WhatsApp. This app does not read your SMS inbox.'),
                     ),
                   const SizedBox(height: 20),
                   Text('A message.\nA new destination.',

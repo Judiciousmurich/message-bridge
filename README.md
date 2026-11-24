@@ -1,12 +1,12 @@
 # Message Bridge
 
-On Android, Message Bridge lists the texts on the phone. You save your
-WhatsApp number once. Tap a text and WhatsApp opens with that text filled in
-for that number. You tap Send. The text is not uploaded and Twilio is not used.
+Message Bridge helps you open a text in WhatsApp Messenger. Copy a message
+from your Messages app (or type one), save your WhatsApp number once, tap
+Continue in WhatsApp, then tap Send in WhatsApp. The app does not upload your
+text and does not use Twilio.
 
-iPhone cannot do the same thing. Apple does not let a normal app read the
-Messages inbox, including when the person would allow it. On iOS, copy a
-message and paste it into Message Bridge, then continue in WhatsApp.
+On Android and iPhone the flow is the same: the app does **not** read your SMS
+inbox. That keeps the Google Play build within Play policy (no `READ_SMS`).
 
 ## Run
 
@@ -17,22 +17,14 @@ flutter pub get
 flutter run
 ```
 
-On Android, grant SMS access when asked. Enter your WhatsApp number once.
-A number starting with 07 or 01 is saved as +254. Spaces are fine.
-WhatsApp must be installed. Tap one text, or tap Send today's texts to open
-that day's texts together. You tap Send once in WhatsApp. Copy all texts
-copies every listed text.
-
-The list shows the 200 newest received and sent texts. Google Play restricts
-SMS access, so this build is meant for a private install. Some phones only let
-the default Messages app read texts; if the list stays empty after you allow
-access, the phone blocked the read.
+Enter your WhatsApp number once. A number starting with 07 or 01 is saved as
++254. Spaces are fine. WhatsApp must be installed on Android.
 
 ## Privacy policy
 
 The policy text lives in [`docs/privacy-policy.md`](docs/privacy-policy.md) and
 [`docs/privacy-policy.html`](docs/privacy-policy.html). For Play Console, host the
-HTML on a public HTTPS URL (for example GitHub Pages from the `docs/` folder on
+HTML on a public HTTPS URL (for example jsDelivr from the public GitHub repo on
 `main`) and paste that URL into the privacy policy declaration.
 
 ## Play Store (Android)
@@ -42,12 +34,12 @@ HTML on a public HTTPS URL (for example GitHub Pages from the `docs/` folder on
    `android/key.properties`, create `android/app/upload-keystore.jks`, then
    rebuild. Without `key.properties`, release uses the debug key (Play may
    reject or require Play App Signing enrollment).
-3. Play Console → **Test and release** → **Internal testing** → upload
-   `build/app/outputs/bundle/release/app-release.aab`, save, **Next**, roll out.
-4. **Testers** tab → add emails, then **Publishing overview** → **Send app for
-   review** for pending store/policy changes.
-5. **Production** is separate: create a production release after internal
-   testing passes and Google approves the app (SMS apps are policy-sensitive).
+3. Play Console → **Test and release** → upload the new AAB (version code **5**
+   or higher after SMS removal), roll out to **Production**, then **Submit for
+   review**.
+4. **App content**: remove the **SMS and call log** permissions declaration if
+   the bundle no longer requests SMS permissions.
+5. **Data safety**: answer **No** for collection/sharing; save on Preview.
 
 ## Check
 
@@ -55,5 +47,3 @@ HTML on a public HTTPS URL (for example GitHub Pages from the `docs/` folder on
 flutter analyze
 flutter test
 ```
-
-

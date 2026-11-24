@@ -5,20 +5,20 @@ Use **Grow users → Store presence → Main store listing** (English en-US).
 ## Short description (max 80 chars)
 
 ```
-Open phone texts in WhatsApp—list SMS on device, tap, send. No cloud upload.
+Copy a text, open WhatsApp with it prefilled. No SMS read, no cloud upload.
 ```
 
 ## Full description (max 4000 chars)
 
 ```
-Message Bridge helps you move a text from your phone’s SMS inbox into WhatsApp Messenger.
+Message Bridge helps you move text into WhatsApp Messenger quickly.
 
-On Android, after you allow SMS access, the app shows your newest messages stored on the device. Save your WhatsApp number once, tap a message, and WhatsApp opens with that text ready—you tap Send. You can also send today’s texts together or copy the list.
+Copy a message from your Messages app (or type it), save your WhatsApp number once, and tap Continue in WhatsApp. WhatsApp opens with your text ready—you tap Send.
 
-• Reads SMS on your device only — not uploaded to our servers
+• Does not read your SMS inbox — no sensitive SMS permission
 • Opens WhatsApp with your message prefilled
 • No ads, no account login, no Twilio
-• iOS: paste or type a message, then continue in WhatsApp (no SMS inbox on iPhone)
+• Same paste/type flow on Android and iPhone
 
 Message Bridge does not send SMS for you and is not a replacement for your Messages or WhatsApp apps. WhatsApp must be installed on Android.
 
@@ -39,5 +39,6 @@ Desktop copies: folder `Message-Bridge-Play-assets` (if created) or files in `do
 
 ## After listing is saved
 
-1. **Publishing overview** → **Send app for review**
-2. **Test and release → Production → Create release** → add bundle **3 (1.0.0)** from library → **Save and publish**
+1. Upload production bundle **5 (1.0.0)** or higher (no `READ_SMS`).
+2. **App content** → withdraw SMS/call-log declaration if still present.
+3. **Publishing overview** → **Send app for review**

@@ -11,35 +11,19 @@ Kotlin source paths are relative to
 
 ## Active rules
 
-### BR-032 — Tapping a text opens it in the saved WhatsApp chat
+### BR-034 — Android uses paste/type only (Google Play)
 - Status: Active
 - Type: Behavior
-- Rule: On Android, after SMS read permission, the app lists up to 200 of the
-  newest received and sent texts. The user saves one WhatsApp number on the
-  phone. Spaces are ignored. A mobile number that starts with 0 is saved as a
-  Kenyan +254 number. Tapping a text opens WhatsApp Messenger with that text
-  filled in for that number. The user taps Send in WhatsApp. The app does not
-  call Twilio.
-- Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
+- Rule: On Android, the app does not request SMS read permission and does not
+  list the device's SMS inbox. The user copies or types a message, saves one
+  WhatsApp number on the phone (spaces ignored; a Kenyan mobile starting with
+  0 is saved as +254), and opens WhatsApp Messenger with that text filled in for
+  that number. The user taps Send in WhatsApp. The app does not call Twilio.
+- Source: `README.md`, `lib/main.dart`, `lib/compose_page.dart`,
+  `AndroidManifest.xml`
 - History:
-  - 2026-11-12 — Added so a listed text opens directly in the saved WhatsApp
-    chat. Supersedes BR-031. Ledger: Open a tapped text in WhatsApp.
-  - 2026-11-17 — A saved number with spaces, or a Kenyan mobile starting with
-    0, still opens the WhatsApp chat. Ledger: Accept the saved WhatsApp number.
-
-### BR-033 — Today's texts can go to WhatsApp together
-- Status: Active
-- Type: Behavior
-- Rule: On Android, the user can send every listed text from the current day
-  to the saved WhatsApp number as one message, then tap Send once. The user
-  can also copy every listed text. Tapping one text still opens that text
-  alone. The app does not call Twilio.
-- Source: `README.md`, `lib/sms_inbox_page.dart`
-- History:
-  - 2026-11-17 — Added so a list of texts does not need one tap each. Ledger:
-    Copy or open every listed text.
-  - 2026-11-17 — The WhatsApp batch is the current day's texts. Copy all still
-    copies the whole list. Ledger: Send today's texts together.
+  - 2026-11-24 — Added for Google Play policy. Supersedes BR-032 and BR-033.
+    Ledger: Remove SMS read for Play.
 
 ### BR-024 — iOS cannot read the Messages inbox
 - Status: Active
@@ -59,8 +43,44 @@ Kotlin source paths are relative to
     new SMS through Twilio.
   - 2026-11-12 — Android again shows the text list. iOS stays on paste. Ledger:
     Restore the text list.
+  - 2026-11-24 — Android on Google Play matches iOS paste/type; no inbox read.
+    Ledger: Remove SMS read for Play.
 
 ## Superseded rules
+
+### BR-032 — Tapping a text opens it in the saved WhatsApp chat
+- Status: Superseded by BR-034
+- Type: Behavior
+- Rule: On Android, after SMS read permission, the app lists up to 200 of the
+  newest received and sent texts. The user saves one WhatsApp number on the
+  phone. Spaces are ignored. A mobile number that starts with 0 is saved as a
+  Kenyan +254 number. Tapping a text opens WhatsApp Messenger with that text
+  filled in for that number. The user taps Send in WhatsApp. The app does not
+  call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`, `MainActivity.kt`
+- History:
+  - 2026-11-12 — Added so a listed text opens directly in the saved WhatsApp
+    chat. Supersedes BR-031. Ledger: Open a tapped text in WhatsApp.
+  - 2026-11-17 — A saved number with spaces, or a Kenyan mobile starting with
+    0, still opens the WhatsApp chat. Ledger: Accept the saved WhatsApp number.
+  - 2026-11-24 — Superseded. Play build removes SMS inbox. Ledger: Remove SMS
+    read for Play.
+
+### BR-033 — Today's texts can go to WhatsApp together
+- Status: Superseded by BR-034
+- Type: Behavior
+- Rule: On Android, the user can send every listed text from the current day
+  to the saved WhatsApp number as one message, then tap Send once. The user
+  can also copy every listed text. Tapping one text still opens that text
+  alone. The app does not call Twilio.
+- Source: `README.md`, `lib/sms_inbox_page.dart`
+- History:
+  - 2026-11-17 — Added so a list of texts does not need one tap each. Ledger:
+    Copy or open every listed text.
+  - 2026-11-17 — The WhatsApp batch is the current day's texts. Copy all still
+    copies the whole list. Ledger: Send today's texts together.
+  - 2026-11-24 — Superseded. Play build removes SMS inbox. Ledger: Remove SMS
+    read for Play.
 
 ### BR-031 — Android lists texts and opens a chosen one in WhatsApp
 - Status: Superseded by BR-032
